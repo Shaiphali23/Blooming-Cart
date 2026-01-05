@@ -72,11 +72,22 @@ const WebNavbar = () => {
 
         {/* User */}
         <div className="flex items-center gap-6">
-          <div className="text-center cursor-pointer">
+          {/* <div className="text-center cursor-pointer relative">
             <Image src={avatar} alt="avatar" className="w-10 mx-auto" />
-            <p className="text-xs font-bold">{name || "Login"}</p>
+
+            <p
+              className="text-xs font-bold"
+              onClick={() => {
+                if (!name) {
+                  router.push("/login");
+                }
+              }}
+            >
+              {name || "Login"}
+            </p>
+
             {name && (
-              <div className="absolute bg-white shadow-md mt-2 p-3">
+              <div className="absolute right-0 bg-white shadow-md mt-2 p-3 z-50">
                 {role === "Admin" && (
                   <button
                     onClick={() => router.push("/admin")}
@@ -93,7 +104,12 @@ const WebNavbar = () => {
                 </button>
               </div>
             )}
-          </div>
+          </div> */}
+
+          <Link href="/login" className="text-center">
+            <Image src={avatar} alt="avatar" className="w-10 mx-auto" />
+            <p className="text-xs font-bold">Login</p>
+          </Link>
 
           <Link href="#" className="text-center">
             <Image src={orders} alt="orders" className="w-10 mx-auto" />

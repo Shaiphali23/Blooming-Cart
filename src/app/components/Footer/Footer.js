@@ -1,142 +1,54 @@
 import Image from "next/image";
 import Link from "next/link";
 import BloomingCart from "../../assets/images/BloomingCart.png";
+import { footerLinks } from "@/app/assets/data/footerLinks";
 
 const Footer = () => {
   return (
     <footer className="bg-[#B026FF] pt-12 overflow-x-hidden">
-      {/* Main Footer Grid */}
-      <div
-        className="grid w-[95%] mx-auto gap-6 
-        grid-cols-1 
-        sm:grid-cols-2 
-        md:grid-cols-3 
-        lg:grid-cols-5"
-      >
-        {/* LOGO */}
-        <div className="flex justify-center mx-auto lg:justify-start">
-          <div className="w-[120px] h-[120px] rounded-full overflow-hidden bg-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
-            <Image
-              src={BloomingCart}
-              alt="Blooming Cart Logo"
-              width={120}
-              height={120}
-              className="object-cover"
-            />
+      <div className="grid w-[95%] mx-auto gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {/* Logo */}
+        <div className="flex justify-center lg:justify-start">
+          <div className="w-[120px] h-[120px] rounded-full bg-white flex items-center justify-center shadow-lg">
+            <Image src={BloomingCart} alt="Blooming Cart Logo" width={120} />
           </div>
         </div>
 
         {/* Company */}
-        <div>
-          <h3 className="text-white text-lg font-bold tracking-wider mb-3">
-            Company
-          </h3>
-          <ul className="space-y-2 text-sm text-white">
-            {[
-              "About",
-              "Jobs",
-              "List your property",
-              "Partnerships",
-              "Newsroom",
-              "Investor Relations",
-              "Roaming Gnome Store",
-              "Advertising",
-            ].map((item) => (
-              <li key={item}>
-                <Link href="#" className="hover:underline">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="Company" links={footerLinks.company} />
 
         {/* Explore */}
-        <div>
-          <h3 className="text-white text-lg font-bold tracking-wider mb-3">
-            Explore
-          </h3>
-          <ul className="space-y-2 text-sm text-white">
-            {[
-              "Hotels in United States",
-              "Vacation Rentals in United States",
-              "Vacation Packages in United States",
-              "Domestic Flights",
-              "Car Rentals in United States",
-              "Travelocity Reviews",
-              "Travelocity Coupons",
-              "Unique Places to Stay",
-              "Travel Blog",
-            ].map((item) => (
-              <li key={item}>
-                <Link href="#" className="hover:underline">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="Explore" links={footerLinks.explore} />
 
         {/* Policies */}
-        <div>
-          <h3 className="text-white text-lg font-bold tracking-wider mb-3">
-            Policies
-          </h3>
-          <ul className="space-y-2 text-sm text-white">
-            {[
-              "Privacy Policy",
-              "Terms of Use",
-              "Accessibility",
-              "Do not sell my personal information",
-            ].map((item) => (
-              <li key={item}>
-                <Link href="#" className="hover:underline">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="Policies" links={footerLinks.policies} />
 
         {/* Help */}
-        <div>
-          <h3 className="text-white text-lg font-bold tracking-wider mb-3">
-            Help
-          </h3>
-          <ul className="space-y-2 text-sm text-white">
-            {[
-              "Support",
-              "Cancel your hotel or vacation rental booking",
-              "Cancel your flight",
-              "Refund timelines, policies & processes",
-              "Use a Travelocity coupon",
-              "Coronavirus Disease (COVID-19)",
-            ].map((item) => (
-              <li key={item}>
-                <Link href="#" className="hover:underline">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="Help" links={footerLinks.help} />
       </div>
 
       <hr className="my-6 border-white/30" />
 
-      {/* License */}
       <div className="w-[90%] mx-auto text-center text-white text-sm pb-6">
-        <p>
-          © {new Date().getFullYear()} 1-800-Flowers.com, Inc., Jericho, NY
-          Family of Brands
-        </p>
-        <p>
-          Design are trademarks or registered trademarks of Blooming Cart LLC.
-          CST# 2056372-50.
-        </p>
+        <p>© {new Date().getFullYear()} Blooming Cart. All rights reserved.</p>
       </div>
     </footer>
   );
 };
+
+const FooterColumn = ({ title, links }) => (
+  <div>
+    <h3 className="text-white text-[22px] font-bold mb-3">{title}</h3>
+    <ul className="space-y-2 text-md text-white">
+      {links.map(({ label, href }) => (
+        <li key={label}>
+          <Link href={href} className="hover:underline">
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export default Footer;
