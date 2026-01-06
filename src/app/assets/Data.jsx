@@ -36,50 +36,17 @@ export const Brand_Images = [
 ];
 
 export const Categories_Data = [
-  {
-    category: "VALENTINE'S",
-    url: "/ind/valentine",
-  },
-  {
-    category: "BIRTHDAY",
-    url: "/ind/birthday",
-  },
-  {
-    category: "SYMPATHY",
-    url: "/ind/sympathy",
-  },
-  {
-    category: "OCCASION",
-    url: "/ind/anniversary",
-  },
-  {
-    category: "FLOWERS",
-    url: "/ind/plants",
-  },
-  {
-    category: "PLANTS",
-    url: "/ind/plants",
-  },
-  {
-    category: "GIFT BASKETS & FOOD",
-    url: "/ind/Gift Baskets",
-  },
-  {
-    category: "GIFTS & MORE",
-    url: "/ind/sameday delivery",
-  },
-  {
-    category: "SAME-DAY DELIVERY",
-    url: "/ind/sameday delivery",
-  },
-  {
-    category: "SALE",
-    url: "/ind/sale",
-  },
-  {
-    category: "COMMUNITY",
-    url: "/ind/sale",
-  },
+  { category: "VALENTINE'S", url: "/ind/valentine" },
+  { category: "BIRTHDAY", url: "/ind/birthday" },
+  { category: "SYMPATHY", url: "/ind/sympathy" },
+  { category: "OCCASION", url: "/ind/anniversary" },
+  { category: "FLOWERS", url: "/ind/flowers" },
+  { category: "PLANTS", url: "/ind/plants" },
+  { category: "GIFT BASKETS & FOOD", url: "/ind/gift-baskets" },
+  { category: "GIFTS & MORE", url: "/ind/gifts-more" },
+  { category: "SAME-DAY DELIVERY", url: "/ind/sameday" },
+  { category: "SALE", url: "/ind/sale" },
+  { category: "COMMUNITY", url: "/ind/community" },
 ];
 
 const Flower_Data1 = [

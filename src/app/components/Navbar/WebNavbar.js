@@ -9,11 +9,16 @@ import avatar from "../../assets/images/icons8-customer.gif";
 import cart from "../../assets/images/icons8-shopping-cart.gif";
 import orders from "../../assets/images/icons8-truck.gif";
 import { Categories_Data } from "../../assets/Data";
+import { useSelector } from "react-redux";
 
 const WebNavbar = () => {
   const router = useRouter();
   const [scrollTop, setScrollTop] = useState(0);
-  //   console.log("Categories Data", Categories_Data);
+  const cartItems = useSelector((state) => state.cart.items);
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const name =
     typeof window !== "undefined" ? localStorage.getItem("userName") : null;
@@ -116,9 +121,18 @@ const WebNavbar = () => {
             <p className="text-xs font-bold">My Orders</p>
           </Link>
 
-          <Link href="/shopping" className="text-center">
+          <Link href="/cart" className="relative text-center">
+            {/* Cart Icon */}
             <Image src={cart} alt="cart" className="w-10 mx-auto" />
-            <p className="text-xs font-bold">Cart</p>
+
+            {/* Badge */}
+            {totalQuantity > 0 && (
+              <span className="absolute -top-1 right-6 bg-red-600 text-white text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center font-bold">
+                {totalQuantity}
+              </span>
+            )}
+
+            <p className="text-xs font-bold mt-1">Cart</p>
           </Link>
         </div>
       </div>

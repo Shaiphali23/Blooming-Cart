@@ -2,6 +2,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import TopNavbar from "./components/Navbar/TopNavbar";
+import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Blooming Cart | Flower Delivery",
@@ -15,10 +17,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
-        <TopNavbar />
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <Providers>
+          <TopNavbar />
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Toaster position="top-center" reverseOrder={false} />
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

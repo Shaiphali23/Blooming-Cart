@@ -18,16 +18,19 @@ export const footerLinks = {
     { label: "Travel Blog", href: "/blog" },
   ],
   policies: [
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms of Use", href: "/terms" },
-    { label: "Accessibility", href: "/accessibility" },
-    { label: "Do not sell my personal information", href: "/do-not-sell" },
+    { label: "Privacy Policy", href: "/policies/privacy-policy" },
+    { label: "Terms of Use", href: "/policies/terms" },
+    { label: "Accessibility", href: "/policies/accessibility" },
+    {
+      label: "Do not sell my personal information",
+      href: "/policies/do-not-sell",
+    },
   ],
   help: [
-    { label: "Support", href: "/support" },
+    { label: "Support", href: "/help/support" },
     { label: "Cancel booking", href: "/help/cancel-booking" },
     { label: "Cancel flight", href: "/help/cancel-flight" },
     { label: "Refund policies", href: "/help/refunds" },
-    { label: "COVID-19", href: "/covid-19" },
+    { label: "COVID-19", href: "/help/covid-19" },
   ],
 };
