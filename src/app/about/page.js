@@ -1,3 +1,7 @@
+import HeroSlider from "./HeroSlider";
+import ExperienceHistorySection from "./ExperienceHistorySection";
+import NewsroomSection from "./NewsroomSection";
+
 export const metadata = {
   title: "About Us | Blooming-Cart",
   description:
@@ -11,7 +15,7 @@ export default function AboutPage() {
       <div className="relative w-full h-[300px] md:h-[400px]">
         <img
           src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6"
-          alt="Bloomify Hero"
+          alt="Blooming-Cart Hero"
           className="w-full h-full object-cover"
         />
 
@@ -30,11 +34,11 @@ export default function AboutPage() {
       {/* Intro Section */}
       <div className="w-full bg-[#0158BA] text-white py-16">
         <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <h2 className="text-[60px] font-bold mb-6">Welcome to Bloomify</h2>
+          <h2 className="text-[60px] font-bold mb-6">Welcome to Blooming Cart</h2>
 
           <div className="space-y-4 text-lg md:text-xl">
             <p>
-              At <span className="font-medium">Bloomify</span>, every flower
+              At <span className="font-medium">Blooming Cart</span>, every flower
               tells a story of love, joy, and care.
             </p>
 
@@ -54,6 +58,12 @@ export default function AboutPage() {
           </button>
         </div>
       </div>
+
+      <HeroSlider />
+
+      <ExperienceHistorySection />
+
+      <NewsroomSection />
     </section>
   );
 }
