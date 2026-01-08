@@ -10,8 +10,7 @@ const page = () => {
       excerpt:
         "Discover the most amazing travel spots to visit this year and plan your perfect getaway.",
       date: "Jan 6, 2026",
-      image:
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
     },
     {
       id: 2,
@@ -19,8 +18,7 @@ const page = () => {
       excerpt:
         "Learn smart tips and tricks to explore the world without breaking the bank.",
       date: "Jan 2, 2026",
-      image:
-        "https://images.unsplash.com/photo-1493558103817-58b2924bce98",
+      image: "https://images.unsplash.com/photo-1493558103817-58b2924bce98",
     },
     {
       id: 3,
@@ -28,31 +26,32 @@ const page = () => {
       excerpt:
         "Experience premium hotels and resorts that offer world-class comfort and amenities.",
       date: "Dec 28, 2025",
-      image:
-        "https://images.unsplash.com/photo-1542317854-5e1dfb6f2335",
+      image: "https://images.unsplash.com/photo-1542317854-5e1dfb6f2335",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen w-full bg-[#fffaf7]">
       {/* Hero Section */}
-      <section className="relative h-[50vh]">
+      <div className="relative w-full h-[300px] md:h-[400px]">
         <img
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-          alt="Blog"
+          src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6"
+          alt="Blooming Hero"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-3">
-              Blog
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-start">
+          <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
+            <nav className="text-sm text-gray-200 mb-4">Home / Blogs</nav>
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Thoughtful Gifts, Beautifully Delivered
             </h1>
-            <p className="max-w-2xl mx-auto text-lg">
-              Insights, tips, and stories from our travel experts
+            <p className="text-lg text-gray-200 max-w-2xl">
+              Celebrate every moment with Blooming-Cart’s handcrafted gift
+              baskets.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Blog Posts */}
       <section className="max-w-7xl mx-auto px-4 py-16">
@@ -88,11 +87,10 @@ const page = () => {
 
       {/* CTA */}
       <section className="bg-black text-white py-16 text-center px-4">
-        <h2 className="text-3xl font-semibold mb-4">
-          Want More Travel Tips?
-        </h2>
+        <h2 className="text-3xl font-semibold mb-4">Want More Travel Tips?</h2>
         <p className="text-gray-300 mb-6">
-          Subscribe to our newsletter and stay updated with the latest blog posts
+          Subscribe to our newsletter and stay updated with the latest blog
+          posts
         </p>
         <Link
           href="/contact"
@@ -106,4 +104,3 @@ const page = () => {
 };
 
 export default page;
-

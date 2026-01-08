@@ -7,8 +7,8 @@ export const footerLinks = {
   ],
   explore: [
     {
-      label: "Same-Day Gift Delivery",
-      href: "/explore/gift-baskets-same-day-delivery",
+      label: "Same-Day Flower Delivery",
+      href: "/explore/flower-same-day-delivery",
     },
     { label: "Vacation Rentals", href: "/explore/vacation-rentals" },
     { label: "Vacation Packages", href: "/explore/packages" },
@@ -26,10 +26,11 @@ export const footerLinks = {
     },
   ],
   help: [
-    { label: "Support", href: "/help/support" },
-    { label: "Cancel booking", href: "/help/cancel-booking" },
-    { label: "Cancel flight", href: "/help/cancel-flight" },
-    { label: "Refund policies", href: "/help/refunds" },
-    { label: "COVID-19", href: "/help/covid-19" },
+    { label: "Customer Support", href: "/help/support" },
+    { label: "Track Your Order", href: "/help/track-order" },
+    { label: "Cancel an Order", href: "/help/cancel-order" },
+    { label: "Refunds & Returns", href: "/help/refunds" },
+    { label: "Shipping & Delivery", href: "/help/shipping" },
+    { label: "FAQs", href: "/help/faqs" },
   ],
 };

@@ -3,25 +3,29 @@ import Link from "next/link";
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen w-full bg-[#fffaf7]">
       {/* Hero Section */}
-      <section className="relative h-[60vh]">
+      <div className="relative w-full h-[300px] md:h-[400px]">
         <img
-          src="https://images.unsplash.com/photo-1505691938895-1758d7feb511"
-          alt="Vacation Rentals"
+          src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6"
+          alt="Blooming Hero"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Vacation Rentals
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-start">
+          <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
+            <nav className="text-sm text-gray-200 mb-4">
+              Home / Vacation Rentals
+            </nav>
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Thoughtful Gifts, Beautifully Delivered
             </h1>
-            <p className="max-w-2xl mx-auto text-lg">
-              Find the perfect stay for your next vacation
+            <p className="text-lg text-gray-200 max-w-2xl">
+              Celebrate every moment with Blooming-Cart’s handcrafted gift
+              baskets.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Intro Section */}
       <section className="max-w-7xl mx-auto px-4 py-16 text-center">

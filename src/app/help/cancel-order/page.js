@@ -12,9 +12,7 @@ const page = () => {
         />
         <div className="absolute inset-0 bg-black/30 flex items-center justify-start">
           <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
-            <nav className="text-sm text-gray-200 mb-4">
-              Home / Refunds & Returns
-            </nav>
+            <nav className="text-sm text-gray-200 mb-4">Home / Cancel Order</nav>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
               Thoughtful Gifts, Beautifully Delivered
             </h1>
