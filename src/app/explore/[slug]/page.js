@@ -6,16 +6,18 @@ import CategoryBar from "./CategoryBar";
 import CategorySidebar from "./CategorySidebar";
 import DeliveryCountdown from "./DeliveryCountdown";
 import { categories } from "@/app/assets/data/categories";
+import flowers from "@/app/assets/images/flower.jpg";
+import birthdayFlower from "@/app/assets/images/birthday-flower.jpg";
+import Image from "next/image";
 
-// Sample products data
 export const products = [
   {
     id: 1,
     categorySlug: "flowers-same-day-delivery",
     name: "Red Roses Bouquet",
-    image: "https://via.placeholder.com/200x200?text=Red+Roses",
+    image: flowers,
     price: 49.99,
-    deliveryType: "Shipped in a Gift Box",
+    deliveryType: "Local Florist Delivery",
     assortment: "Flowers",
     brand: "1-800-Flowers",
   },
@@ -23,21 +25,111 @@ export const products = [
     id: 2,
     categorySlug: "flowers-same-day-delivery",
     name: "Pink Tulips Bouquet",
-    image: "https://via.placeholder.com/200x200?text=Pink+Tulips",
+    image: flowers,
     price: 39.99,
-    deliveryType: "Local Shop Delivery",
+    deliveryType: "Local Florist Delivery",
     assortment: "Flowers",
     brand: "1-800-Flowers",
   },
   {
     id: 3,
     categorySlug: "birthday-same-day-delivery",
-    name: "Birthday Surprise Box",
-    image: "https://via.placeholder.com/200x200?text=Birthday+Box+1",
+    name: "Birthday Chocolate Box",
+    image: birthdayFlower,
     price: 69.99,
     deliveryType: "Shipped in a Gift Box",
     assortment: "Chocolate",
     brand: "Shari's Berries",
+  },
+  {
+    id: 4,
+    categorySlug: "birthday-same-day-delivery",
+    name: "Birthday Cupcake Gift",
+    image: birthdayFlower,
+    price: 59.99,
+    deliveryType: "Shipped in a Gift Box",
+    assortment: "Bakery",
+    brand: "Cheryl’s Cookies",
+  },
+  {
+    id: 5,
+    categorySlug: "sympathy-same-day-delivery",
+    name: "White Sympathy Flowers",
+    image: birthdayFlower,
+    price: 79.99,
+    deliveryType: "Local Florist Delivery",
+    assortment: "Sympathy",
+    brand: "1-800-Flowers",
+  },
+  {
+    id: 6,
+    categorySlug: "sympathy-same-day-delivery",
+    name: "Peace Lily Plant",
+    image: birthdayFlower,
+    price: 64.99,
+    deliveryType: "Local Florist Delivery",
+    assortment: "Plants",
+    brand: "1-800-Flowers",
+  },
+  {
+    id: 7,
+    categorySlug: "gifts-same-day-delivery",
+    name: "Luxury Snack Basket",
+    image: flowers,
+    price: 54.99,
+    deliveryType: "Shipped in a Gift Box",
+    assortment: "Gifts",
+    brand: "Harry & David",
+  },
+  {
+    id: 8,
+    categorySlug: "gifts-same-day-delivery",
+    name: "Assorted Chocolate Gift",
+    image: flowers,
+    price: 44.99,
+    deliveryType: "Shipped in a Gift Box",
+    assortment: "Chocolate",
+    brand: "Shari's Berries",
+  },
+  {
+    id: 9,
+    categorySlug: "plants-same-day-delivery",
+    name: "Green Indoor Plant",
+    image: flowers,
+    price: 49.99,
+    deliveryType: "Local Florist Delivery",
+    assortment: "Plants",
+    brand: "1-800-Flowers",
+  },
+  {
+    id: 10,
+    categorySlug: "plants-same-day-delivery",
+    name: "Succulent Garden",
+    image: flowers,
+    price: 34.99,
+    deliveryType: "Local Florist Delivery",
+    assortment: "Plants",
+    brand: "1-800-Flowers",
+  },
+  {
+    id: 11,
+    categorySlug: "sale-same-day",
+    name: "Sale Rose Bouquet",
+    image: flowers,
+    price: 29.99,
+    deliveryType: "Local Florist Delivery",
+    assortment: "Flowers",
+    brand: "1-800-Flowers",
+  },
+  {
+    id: 12,
+    categorySlug: "sale-same-day",
+    name: "Sale Gift Basket",
+    image: flowers,
+    price: 39.99,
+    deliveryType: "Shipped in a Gift Box",
+    assortment: "Gifts",
+    brand: "Harry & David",
   },
 ];
 
@@ -118,10 +210,10 @@ export default function ExploreCategoryPage() {
         <div className="absolute inset-0 bg-black/30 flex items-center justify-start">
           <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
             <nav className="text-sm text-gray-200 mb-4">
-              Home / Gift Baskets / Same-Day Delivery
+              Home / Gift Baskets / Same-Day Flower Delivery
             </nav>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-              Thoughtful Gifts, Beautifully Delivered
+              Same-Day Flower Delivery
             </h1>
             <p className="text-lg text-gray-200 max-w-2xl">
               Celebrate every moment with Blooming-Cart’s handcrafted gift
@@ -157,10 +249,12 @@ export default function ExploreCategoryPage() {
                     <span className="absolute top-3 left-3 bg-[#E9F5EE] text-[#1E7F4E] text-xs font-semibold px-3 py-1 rounded">
                       BEST SELLER
                     </span>
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
                       className="w-full h-64 object-cover"
+                      width={400}
+                      height={400}
                     />
                   </div>
                   <div className="p-4">

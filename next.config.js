@@ -1,8 +1,20 @@
 /** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["images.contentstack.io"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn1.1800flowers.com',
+        port: '',
+        pathname: '/wcsstore/Flowers/images/catalog/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
