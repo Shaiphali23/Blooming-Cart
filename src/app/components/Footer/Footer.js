@@ -29,8 +29,36 @@ const Footer = () => {
 
       <hr className="my-6 border-white/30" />
 
-      <div className="w-[90%] mx-auto text-center text-white text-sm pb-6">
-        <p>© {new Date().getFullYear()} Blooming Cart. All rights reserved.</p>
+      <div className="w-[90%] mx-auto py-6 text-white text-sm flex flex-col md:flex-row items-center justify-between">
+        {/* Left: Promo / copyright */}
+        <div className="mb-2 md:mb-0 md:text-left">
+          <p>
+            © {new Date().getFullYear()} Blooming Cart. All rights reserved.
+          </p>
+        </div>
+
+        {/* Center: Footer links */}
+        <div className="flex space-x-4 mb-2 md:mb-0 gap-3">
+          <Link href="/about" className="hover:underline">
+            About Us
+          </Link>
+          <Link href="/explore/contact-us" className="hover:underline">
+            Contact Us
+          </Link>
+          <Link href="/policies/privacy-policy" className="hover:underline">
+            Privacy Policy
+          </Link>
+          <Link href="/policies/terms" className="hover:underline">
+            Terms & Conditions
+          </Link>
+        </div>
+
+        {/* Right: Logo / Delivered By */}
+        <div className="md:text-right">
+          <p>
+            Delivered by <strong>Blooming-Cart</strong>
+          </p>
+        </div>
       </div>
     </footer>
   );

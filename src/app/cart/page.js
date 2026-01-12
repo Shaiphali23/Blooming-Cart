@@ -5,10 +5,12 @@ import { updateQuantity, removeFromCart } from "@/app/redux/slices/cartSlice";
 import Link from "next/link";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const router = useRouter();
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -125,7 +127,10 @@ export default function CartPage() {
             <span>₹ {totalPrice.toFixed(2)}</span>
           </div>
 
-          <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition cursor-pointer">
+          <button
+            className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition cursor-pointer"
+            onClick={() => router.push("/checkout")}
+          >
             Proceed to Checkout
           </button>
         </div>

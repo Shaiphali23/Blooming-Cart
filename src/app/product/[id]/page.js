@@ -17,12 +17,14 @@ import {
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/redux/slices/cartSlice";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+  const router = useRouter();
 
   const product = productData.find((item) => item.id === Number(id));
   const [selectedImage, setSelectedImage] = useState(product.image);
@@ -213,7 +215,7 @@ export default function ProductDetailPage() {
                 {/* Buy Now */}
                 <button
                   className="w-full py-3.5 border-2 border-black text-black rounded-lg font-semibold hover:bg-black hover:text-white transition-all cursor-pointer"
-                  onClick={() => alert("Proceeding to checkout")}
+                  onClick={() => router.push("/billing")}
                 >
                   Buy Now
                 </button>

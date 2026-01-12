@@ -1,4 +1,5 @@
 import React from "react";
+import GiftCardForm from "./GiftCardForm";
 
 const page = () => {
   return (
@@ -25,6 +26,8 @@ const page = () => {
           </div>
         </div>
       </div>
+
+      <GiftCardForm />
     </div>
   );
 };

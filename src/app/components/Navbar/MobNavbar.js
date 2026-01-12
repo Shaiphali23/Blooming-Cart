@@ -23,7 +23,7 @@ const MobNavbar = () => {
           onClick={() => router.push("/")}
         />
 
-        <Link href="/shopping" className="text-center">
+        <Link href="/cart" className="text-center">
           <FontAwesomeIcon icon={faCartShopping} size="lg" />
           <p className="text-xs font-bold">Cart</p>
         </Link>
