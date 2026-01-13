@@ -10,6 +10,7 @@ import cart from "../../assets/images/icons8-shopping-cart.gif";
 import orders from "../../assets/images/icons8-truck.gif";
 import { Categories_Data } from "../../assets/Data";
 import { useSelector } from "react-redux";
+import CategoriesDropdown from "./CategoriesDropdown";
 
 const WebNavbar = () => {
   const router = useRouter();
@@ -62,14 +63,7 @@ const WebNavbar = () => {
 
           <button
             type="submit"
-            className="min-h-[40px] px-4 py-2 bg-[#200589] text-white text-[15px]
-      rounded-r-[6px]
-      cursor-pointer
-      transition-colors 
-      duration-300 
-      ease-in-out
-      hover:bg-[#b026ff]
-    "
+            className="min-h-[40px] px-4 py-2 bg-[#200589] text-white text-[15px] rounded-r-[6px] cursor-pointer transition-colors duration-300 ease-in-out hover:bg-[#b026ff]"
           >
             SEARCH
           </button>
@@ -138,7 +132,7 @@ const WebNavbar = () => {
       </div>
 
       {/* Categories */}
-      <div className="flex justify-between items-center py-[5px] px-[10px] bg-white/70 backdrop-blur-[5px]">
+      {/* <div className="flex justify-between items-center py-[5px] px-[10px] bg-white/70 backdrop-blur-[5px]">
         {Categories_Data.map((el) => (
           <Link
             key={el.category}
@@ -148,6 +142,9 @@ const WebNavbar = () => {
             {el.category}
           </Link>
         ))}
+      </div> */}
+      <div className="flex justify-between items-center py-[5px] px-[10px] bg-white/70 backdrop-blur-[5px]">
+        <CategoriesDropdown />
       </div>
 
       {/* Scroll Progress */}

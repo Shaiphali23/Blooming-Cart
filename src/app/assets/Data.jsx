@@ -36,17 +36,260 @@ export const Brand_Images = [
 ];
 
 export const Categories_Data = [
-  { category: "VALENTINE'S", url: "/ind/valentine" },
-  { category: "BIRTHDAY", url: "/ind/birthday" },
-  { category: "SYMPATHY", url: "/ind/sympathy" },
-  { category: "OCCASION", url: "/ind/anniversary" },
-  { category: "FLOWERS", url: "/ind/flowers" },
-  { category: "PLANTS", url: "/ind/plants" },
-  { category: "GIFT BASKETS & FOOD", url: "/ind/gift-baskets" },
-  { category: "GIFTS & MORE", url: "/ind/gifts-more" },
-  { category: "SAME-DAY DELIVERY", url: "/ind/sameday" },
-  { category: "SALE", url: "/ind/sale" },
-  { category: "COMMUNITY", url: "/ind/community" },
+  {
+    category: "VALENTINE'S",
+    url: "/categories/valentines",
+    subCategories: [
+      {
+        name: "Red Roses",
+        url: "/categories/valentines/red-roses",
+      },
+      {
+        name: "White Roses",
+        url: "/categories/valentines/white-roses",
+      },
+      {
+        name: "Pink Roses",
+        url: "/categories/valentines/pink-roses",
+      },
+    ],
+  },
+  {
+    category: "BIRTHDAY",
+    url: "/ind/birthday",
+    subCategories: [
+      {
+        name: "Birthday Flowers",
+        url: "/ind/birthday/flowers",
+      },
+      {
+        name: "Birthday Gifts",
+        url: "/ind/birthday/gifts",
+      },
+      {
+        name: "Birthday Balloons",
+        url: "/ind/birthday/balloons",
+      },
+    ],
+  },
+  {
+    category: "SYMPATHY",
+    url: "/ind/sympathy",
+    subCategories: [
+      {
+        name: "Sympathy Flowers",
+        url: "/ind/sympathy/flowers",
+      },
+      {
+        name: "Funeral Arrangements",
+        url: "/ind/sympathy/funeral",
+      },
+      {
+        name: "Sympathy Plants",
+        url: "/ind/sympathy/plants",
+      },
+      {
+        name: "Memorial Gifts",
+        url: "/ind/sympathy/memorial",
+      },
+    ],
+  },
+  {
+    category: "OCCASION",
+    url: "/ind/anniversary",
+    subCategories: [
+      {
+        name: "Anniversary",
+        url: "/ind/anniversary/anniversary",
+      },
+      {
+        name: "Congratulations",
+        url: "/ind/anniversary/congratulations",
+      },
+      {
+        name: "Get Well Soon",
+        url: "/ind/anniversary/get-well",
+      },
+      {
+        name: "Thank You",
+        url: "/ind/anniversary/thank-you",
+      },
+    ],
+  },
+  {
+    category: "FLOWERS",
+    url: "/ind/flowers",
+    subCategories: [
+      {
+        name: "Roses",
+        url: "/ind/flowers/roses",
+      },
+      {
+        name: "Tulips",
+        url: "/ind/flowers/tulips",
+      },
+      {
+        name: "Lilies",
+        url: "/ind/flowers/lilies",
+      },
+      {
+        name: "Orchids",
+        url: "/ind/flowers/orchids",
+      },
+      {
+        name: "Mixed Bouquets",
+        url: "/ind/flowers/mixed",
+      },
+      {
+        name: "Seasonal Flowers",
+        url: "/ind/flowers/seasonal",
+      },
+    ],
+  },
+  {
+    category: "PLANTS",
+    url: "/ind/plants",
+    subCategories: [
+      {
+        name: "Indoor Plants",
+        url: "/ind/plants/indoor",
+      },
+      {
+        name: "Flowering Plants",
+        url: "/ind/plants/flowering",
+      },
+      {
+        name: "Succulents & Cacti",
+        url: "/ind/plants/succulents",
+      },
+      {
+        name: "Low Light Plants",
+        url: "/ind/plants/low-light",
+      },
+      {
+        name: "Large Plants",
+        url: "/ind/plants/large",
+      },
+    ],
+  },
+  {
+    category: "GIFT BASKETS & FOOD",
+    url: "/ind/gift-baskets",
+    subCategories: [
+      {
+        name: "Gourmet Baskets",
+        url: "/ind/gift-baskets/gourmet",
+      },
+      {
+        name: "Fruit Baskets",
+        url: "/ind/gift-baskets/fruit",
+      },
+      {
+        name: "Chocolate Baskets",
+        url: "/ind/gift-baskets/chocolate",
+      },
+      {
+        name: "Wine & Cheese",
+        url: "/ind/gift-baskets/wine-cheese",
+      },
+      {
+        name: "Spa & Relaxation",
+        url: "/ind/gift-baskets/spa",
+      },
+    ],
+  },
+  {
+    category: "GIFTS & MORE",
+    url: "/ind/gifts-more",
+    subCategories: [
+      {
+        name: "Teddy Bears",
+        url: "/ind/gifts-more/teddy-bears",
+      },
+      {
+        name: "Gift Cards",
+        url: "/ind/gifts-more/gift-cards",
+      },
+      {
+        name: "Home Decor",
+        url: "/ind/gifts-more/home-decor",
+      },
+      {
+        name: "Candles",
+        url: "/ind/gifts-more/candles",
+      },
+      {
+        name: "Personalized Gifts",
+        url: "/ind/gifts-more/personalized",
+      },
+    ],
+  },
+  {
+    category: "SAME-DAY DELIVERY",
+    url: "/ind/sameday",
+    subCategories: [
+      {
+        name: "Same Day Flowers",
+        url: "/ind/sameday/flowers",
+      },
+      {
+        name: "Same Day Plants",
+        url: "/ind/sameday/plants",
+      },
+      {
+        name: "Same Day Gifts",
+        url: "/ind/sameday/gifts",
+      },
+      {
+        name: "Last Minute Delivery",
+        url: "/ind/sameday/last-minute",
+      },
+    ],
+  },
+  {
+    category: "SALE",
+    url: "/ind/sale",
+    subCategories: [
+      {
+        name: "Clearance Flowers",
+        url: "/ind/sale/flowers",
+      },
+      {
+        name: "Discount Plants",
+        url: "/ind/sale/plants",
+      },
+      {
+        name: "Seasonal Sale",
+        url: "/ind/sale/seasonal",
+      },
+      {
+        name: "Bundle Deals",
+        url: "/ind/sale/bundles",
+      },
+    ],
+  },
+  {
+    category: "COMMUNITY",
+    url: "/ind/community",
+    subCategories: [
+      {
+        name: "Local Charities",
+        url: "/ind/community/charities",
+      },
+      {
+        name: "School Fundraisers",
+        url: "/ind/community/schools",
+      },
+      {
+        name: "Hospital Donations",
+        url: "/ind/community/hospitals",
+      },
+      {
+        name: "Community Events",
+        url: "/ind/community/events",
+      },
+    ],
+  },
 ];
 
 const Flower_Data1 = [
