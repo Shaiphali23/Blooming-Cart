@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { FaChevronDown, FaChevronRight, FaLeaf } from "react-icons/fa";
 import { Categories_Data } from "@/app/assets/Data";
@@ -8,15 +8,28 @@ import VendorZoneDropdown from "./VendorZoneDropdown";
 
 export default function CategoriesDropdown() {
   const [open, setOpen] = useState(false);
-//   const [zoneOpen, setZoneOpen] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+        setHoveredCategory(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       {/* ================= CATEGORY BUTTON ================= */}
       <div className="flex items-center gap-6">
         <button
-          onClick={() => setOpen(!open)}
+          onMouseEnter={() => setOpen(true)}
           className="cursor-pointer flex items-center gap-2 
                bg-white text-green-600 
                text-sm font-semibold 
@@ -32,28 +45,28 @@ export default function CategoriesDropdown() {
         {/* ================= NAV LINKS ================= */}
         <Link
           href="/"
-          className="text-md font-medium text-gray-700 hover:text-green-600 transition"
+          className="text-md font-medium text-gray-700 hover:text-green-600"
         >
           Home
         </Link>
 
         <Link
           href="/brands"
-          className="text-md font-medium text-gray-700 hover:text-green-600 transition"
+          className="text-md font-medium text-gray-700 hover:text-green-600"
         >
           Brand
         </Link>
 
         <Link
           href="/discounts"
-          className="text-md font-medium text-gray-700 hover:text-green-600 transition"
+          className="text-md font-medium text-gray-700 hover:text-green-600"
         >
           Discounted Products
         </Link>
 
         <Link
           href="/vendors"
-          className="text-md font-medium text-gray-700 hover:text-green-600 transition"
+          className="text-md font-medium text-gray-700 hover:text-green-600"
         >
           All Vendors
         </Link>
@@ -65,7 +78,10 @@ export default function CategoriesDropdown() {
       {open && (
         <div
           className="absolute top-full left-0 mt-2 flex bg-white shadow-lg rounded-lg z-50"
-          onMouseLeave={() => setHoveredCategory(null)}
+          onMouseLeave={() => {
+            setOpen(false);
+            setHoveredCategory(null);
+          }}
         >
           {/* ===== LEFT: MAIN CATEGORIES ===== */}
           <ul className="w-64 border-r">
