@@ -1,0 +1,32 @@
+export const products = [
+  {
+    id: 1,
+    name: "Premium Chocolate Cake",
+    description: "Classic chocolate cake with premium ingredients",
+    originalPrice: "₹999.00",
+    discountedPrice: "₹599.00",
+    badge: "≤₹400.00",
+    imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    alt: "Premium Chocolate Cake",
+  },
+  {
+    id: 2,
+    name: "Red Velvet Delight",
+    description: "Soft red velvet cake with cream cheese frosting",
+    originalPrice: "₹1,199.00",
+    discountedPrice: "₹799.00",
+    badge: "≤₹600.00",
+    imageUrl: "https://images.unsplash.com/photo-1586985288959-88f6f55d5c8f",
+    alt: "Red Velvet Cake",
+  },
+  {
+    id: 3,
+    name: "Strawberry Cheesecake",
+    description: "Creamy cheesecake with fresh strawberry topping",
+    originalPrice: "₹899.00",
+    discountedPrice: "₹649.00",
+    badge: "≤₹500.00",
+    imageUrl: "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    alt: "Strawberry Cheesecake",
+  },
+];

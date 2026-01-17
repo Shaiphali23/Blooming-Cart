@@ -8,7 +8,6 @@ import logo from "../../assets/images/Blooming Cart.png";
 import avatar from "../../assets/images/icons8-customer.gif";
 import cart from "../../assets/images/icons8-shopping-cart.gif";
 import orders from "../../assets/images/icons8-truck.gif";
-import { Categories_Data } from "../../assets/Data";
 import { useSelector } from "react-redux";
 import CategoriesDropdown from "./CategoriesDropdown";
 
@@ -71,52 +70,20 @@ const WebNavbar = () => {
 
         {/* User */}
         <div className="flex items-center gap-6">
-          {/* <div className="text-center cursor-pointer relative">
-            <Image src={avatar} alt="avatar" className="w-10 mx-auto" />
-
-            <p
-              className="text-xs font-bold"
-              onClick={() => {
-                if (!name) {
-                  router.push("/login");
-                }
-              }}
-            >
-              {name || "Login"}
-            </p>
-
-            {name && (
-              <div className="absolute right-0 bg-white shadow-md mt-2 p-3 z-50">
-                {role === "Admin" && (
-                  <button
-                    onClick={() => router.push("/admin")}
-                    className="block w-full bg-purple-900 text-white px-3 py-1 mb-2"
-                  >
-                    Admin Panel
-                  </button>
-                )}
-                <button
-                  onClick={handleLogout}
-                  className="block w-full bg-purple-900 text-white px-3 py-1"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div> */}
-
+          {/* Login Page */}
           <Link href="/login" className="text-center">
             <Image src={avatar} alt="avatar" className="w-10 mx-auto" />
             <p className="text-xs font-bold">Login</p>
           </Link>
 
+          {/* My Orders Page */}
           <Link href="#" className="text-center">
             <Image src={orders} alt="orders" className="w-10 mx-auto" />
             <p className="text-xs font-bold">My Orders</p>
           </Link>
 
+          {/* Cart Icon */}
           <Link href="/cart" className="relative text-center">
-            {/* Cart Icon */}
             <Image src={cart} alt="cart" className="w-10 mx-auto" />
 
             {/* Badge */}
@@ -132,17 +99,6 @@ const WebNavbar = () => {
       </div>
 
       {/* Categories */}
-      {/* <div className="flex justify-between items-center py-[5px] px-[10px] bg-white/70 backdrop-blur-[5px]">
-        {Categories_Data.map((el) => (
-          <Link
-            key={el.category}
-            href={el.url}
-            className="text-sm font-medium hover:underline decoration-2"
-          >
-            {el.category}
-          </Link>
-        ))}
-      </div> */}
       <div className="flex justify-between items-center py-[5px] px-[10px] bg-white/70 backdrop-blur-[5px]">
         <CategoriesDropdown />
       </div>

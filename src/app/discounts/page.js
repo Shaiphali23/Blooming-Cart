@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa";
 import { Categories_Data } from "../assets/Data";
 import CategoryItem from "./CategoryItem";
 import PriceFilter from "./PriceFilter";
@@ -54,7 +53,7 @@ export default function DiscountsPage() {
               <option>Alphabetical: (Z To A)</option>
             </select>
 
-            {/* Sort By */}
+            {/* Filter By */}
             <select className="border px-5 py-3 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500">
               <option>Filter By</option>
               <option>Best Selling</option>
@@ -74,10 +73,10 @@ export default function DiscountsPage() {
             <PriceFilter />
 
             {/* Categories */}
-            <div>
-              <h3 className="font-semibold mb-2">Categories</h3>
+            <div className="mt-6">
+              <h3 className="font-semibold">Categories</h3>
 
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-gray-700 mt-6">
                 {Categories_Data.map((cat) => (
                   <CategoryItem key={cat.category} category={cat} />
                 ))}
@@ -95,6 +94,11 @@ export default function DiscountsPage() {
                   placeholder="Search by brand"
                   className="w-full border px-3 pr-10 py-2 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
+
+                {/* Search Icon on Right Side */}
+                <div className="absolute inset-y-0 right-0 top-3 right-4 flex items-center pr-3 pointer-events-none">
+                  <FaSearch className="h-4 w-4 text-gray-400" />
+                </div>
               </div>
 
               {/* Brand List */}
@@ -131,18 +135,23 @@ export default function DiscountsPage() {
               </div>
 
               {/* Content */}
-              <div className="px-4 py-3 text-center flex flex-col justify-between h-[180px]">
-                <h3 className="text-[15px] font-semibold text-gray-900 leading-tight">
+              <div className="p-4 flex flex-col h-[180px]">
+                <h3 className="text-[15px] font-semibold text-gray-900 leading-tight mb-4">
                   Premium Chocolate Cake
                 </h3>
 
-                <div className="flex justify-center items-center gap-3 mt-2">
-                  <span className="text-gray-400 line-through text-sm">
-                    ₹999.00
-                  </span>
-                  <span className="text-[18px] font-bold text-gray-900">
-                    ₹599.00
-                  </span>
+                <div className="mt-auto">
+                  <div className="flex items-center gap-3">
+                    <span className="text-gray-400 line-through text-sm">
+                      ₹999.00
+                    </span>
+                    <span className="text-[18px] font-bold text-gray-900">
+                      ₹599.00
+                    </span>
+                  </div>
+                  <p className="text-[12px] text-gray-600 mt-2">
+                    Classic chocolate cake with premium ingredients
+                  </p>
                 </div>
               </div>
             </div>
