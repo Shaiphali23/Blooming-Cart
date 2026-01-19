@@ -99,7 +99,7 @@ const VendorZoneDropdown = () => {
               <p className="text-xs text-gray-500">
                 Need help?{" "}
                 <Link
-                  href="/contact"
+                  href="/contacts"
                   className="text-green-600 font-medium hover:underline"
                 >
                   Contact Support

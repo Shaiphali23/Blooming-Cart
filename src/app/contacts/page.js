@@ -1,14 +1,12 @@
-import HeroSlider from "./HeroSlider";
-import ExperienceHistorySection from "./ExperienceHistorySection";
-import NewsroomSection from "./NewsroomSection";
+import NewsroomSection from "../about/NewsroomSection";
 
 export const metadata = {
-  title: "About Us | Blooming-Cart",
+  title: "Contact Us | Blooming-Cart",
   description:
     "Learn more about Blooming-Cart – your trusted flower gifting destination.",
 };
 
-export default function AboutPage() {
+export default function ContactPage() {
   return (
     <section className="w-full bg-[#fffaf7]">
       {/* Hero Section */}
@@ -22,10 +20,12 @@ export default function AboutPage() {
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/30 flex items-center justify-start">
           <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
-            <nav className="text-sm text-gray-200 mb-4">Home / About Us</nav>
+            <nav className="text-sm text-gray-200 mb-4">
+              Home / News & Media / Media Contact
+            </nav>
 
             <h1 className="text-3xl md:text-5xl font-bold text-white">
-              About Us
+              Media Contact
             </h1>
           </div>
         </div>
@@ -60,10 +60,6 @@ export default function AboutPage() {
           </button>
         </div>
       </div>
-
-      <HeroSlider />
-
-      <ExperienceHistorySection />
 
       <NewsroomSection />
     </section>

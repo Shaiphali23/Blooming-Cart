@@ -12,37 +12,16 @@ const ReviewSection = () => {
       </h2>
 
       {/* Reviews Grid */}
-      <div
-        className="
-          mt-[110px]
-          grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
-          gap-[20px]
-        "
-      >
+      <div className="mt-[110px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[20px]">
         {ReviewData.map((el) => (
           <div
             key={el.des}
-            className="
-              h-[300px]
-              bg-[#ffedfd]
-              rounded-[20px]
-              shadow-[0_5px_20px_2px_rgba(0,0,0,0.1)]
-              flex flex-col items-center
-              overflow-visible
-            "
+            className="h-[300px] bg-[#ffedfd] rounded-[20px] shadow-[0_5px_20px_2px_rgba(0,0,0,0.1)] flex flex-col items-center overflow-visible"
           >
             {/* Profile Image */}
             <div
               style={{ backgroundImage: `url(${el.img})` }}
-              className="
-                w-1/2 h-1/2
-                rounded-full
-                -translate-y-1/2
-                bg-no-repeat bg-center bg-cover
-                relative
-                transition-all duration-300
-                group-hover:scale-100
-              "
+              className="w-1/2 h-1/2 rounded-full -translate-y-1/2 bg-no-repeat bg-center bg-cover relative transition-all duration-300 group-hover:scale-100"
             ></div>
 
             {/* Card Info */}

@@ -5,11 +5,23 @@ import Link from "next/link";
 import { FaChevronDown, FaChevronRight, FaLeaf } from "react-icons/fa";
 import { Categories_Data } from "@/app/assets/Data";
 import VendorZoneDropdown from "./VendorZoneDropdown";
+import { useRouter } from "next/navigation";
 
 export default function CategoriesDropdown() {
   const [open, setOpen] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const dropdownRef = useRef(null);
+  const router = useRouter();
+
+  const handleCategoryClick = (id) => {
+    router.push(
+      `/products?category_id=${id}&data_from=category&offer_type=&page=1`,
+    );
+  };
+
+  const handleSubCategoryClick = (id) => {
+    router.push(`/products?sub_category_id=${id}&data_from=category&page=1`);
+  };
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -30,14 +42,8 @@ export default function CategoriesDropdown() {
       <div className="flex items-center gap-6">
         <button
           onMouseEnter={() => setOpen(true)}
-          className="cursor-pointer flex items-center gap-2 
-               bg-white text-green-600 
-               text-sm font-semibold 
-               px-4 py-3 
-               border border-green-600 
-               rounded-lg hover:bg-green-50 transition"
+          className="cursor-pointer flex items-center gap-2 bg-white text-green-600 text-sm font-semibold px-4 py-3 border border-green-600 rounded-lg hover:bg-green-50 transition"
         >
-          <FaLeaf className="text-lg" />
           Categories
           <FaChevronDown className="text-sm ml-1" />
         </button>
@@ -50,34 +56,12 @@ export default function CategoriesDropdown() {
           Home
         </Link>
 
-        <div className="relative group pb-2">
-          <Link
-            href="/brands"
-            className="text-md font-medium text-gray-700 hover:text-green-600 block py-2"
-          >
-            Brand
-          </Link>
-
-          <div className="absolute left-0 top-full w-48 bg-white shadow-lg rounded-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50">
-            <ul className="py-2">
-              <li>
-                <Link className="block px-4 py-2 text-sm hover:bg-green-50">
-                  WishWagon
-                </Link>
-              </li>
-              <li>
-                <Link className="block px-4 py-2 text-sm hover:bg-green-50">
-                  WishElectrics
-                </Link>
-              </li>
-              <li className="border-t mt-2 pt-2">
-                <Link className="block px-4 py-2 text-sm font-semibold text-green-600">
-                  View More →
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Link
+          href="/brands"
+          className="text-md font-medium text-gray-700 hover:text-green-600 block py-2"
+        >
+          Brand
+        </Link>
 
         <Link
           href="/discounts"
@@ -111,9 +95,8 @@ export default function CategoriesDropdown() {
               <li
                 key={el.category}
                 onMouseEnter={() => setHoveredCategory(el)}
-                className="flex justify-between items-center 
-                     px-4 py-3 text-sm cursor-pointer 
-                     hover:bg-gray-100"
+                onClick={() => handleCategoryClick(el.id)}
+                className="flex justify-between items-center px-4 py-3 text-sm cursor-pointer hover:bg-gray-100"
               >
                 <Link href={el.url} className="flex-1">
                   {el.category}
@@ -128,10 +111,15 @@ export default function CategoriesDropdown() {
             <ul className="w-64 bg-gray-50">
               {hoveredCategory.subCategories.map((sub) => (
                 <li
-                  key={sub.name}
+                  key={sub.id}
+                  onClick={() => handleSubCategoryClick(sub.id)}
                   className="px-4 py-3 text-sm cursor-pointer hover:bg-gray-200"
                 >
-                  <Link href={sub.url}>{sub.name}</Link>
+                  <Link
+                    href={`/products?sub_category_id=${sub.id}&data_from=category&page=1`}
+                  >
+                    {sub.name}
+                  </Link>
                 </li>
               ))}
             </ul>

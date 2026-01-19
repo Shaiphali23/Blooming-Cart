@@ -37,283 +37,205 @@ export const Brand_Images = [
 
 export const Categories_Data = [
   {
+    id: 1,
     category: "VALENTINE'S",
     url: "/categories/valentines",
     subCategories: [
+      { id: 101, name: "Red Roses", url: "/categories/valentines/red-roses" },
       {
-        name: "Red Roses",
-        url: "/categories/valentines/red-roses",
-      },
-      {
+        id: 102,
         name: "White Roses",
         url: "/categories/valentines/white-roses",
       },
-      {
-        name: "Pink Roses",
-        url: "/categories/valentines/pink-roses",
-      },
+      { id: 103, name: "Pink Roses", url: "/categories/valentines/pink-roses" },
     ],
   },
+
   {
+    id: 2,
     category: "BIRTHDAY",
     url: "/ind/birthday",
     subCategories: [
-      {
-        name: "Birthday Flowers",
-        url: "/ind/birthday/flowers",
-      },
-      {
-        name: "Birthday Gifts",
-        url: "/ind/birthday/gifts",
-      },
-      {
-        name: "Birthday Balloons",
-        url: "/ind/birthday/balloons",
-      },
+      { id: 201, name: "Birthday Flowers", url: "/ind/birthday/flowers" },
+      { id: 202, name: "Birthday Gifts", url: "/ind/birthday/gifts" },
+      { id: 203, name: "Birthday Balloons", url: "/ind/birthday/balloons" },
     ],
   },
+
   {
+    id: 3,
     category: "SYMPATHY",
     url: "/ind/sympathy",
     subCategories: [
-      {
-        name: "Sympathy Flowers",
-        url: "/ind/sympathy/flowers",
-      },
-      {
-        name: "Funeral Arrangements",
-        url: "/ind/sympathy/funeral",
-      },
-      {
-        name: "Sympathy Plants",
-        url: "/ind/sympathy/plants",
-      },
-      {
-        name: "Memorial Gifts",
-        url: "/ind/sympathy/memorial",
-      },
+      { id: 301, name: "Sympathy Flowers", url: "/ind/sympathy/flowers" },
+      { id: 302, name: "Funeral Arrangements", url: "/ind/sympathy/funeral" },
+      { id: 303, name: "Sympathy Plants", url: "/ind/sympathy/plants" },
+      { id: 304, name: "Memorial Gifts", url: "/ind/sympathy/memorial" },
     ],
   },
+
   {
+    id: 4,
     category: "OCCASION",
     url: "/ind/anniversary",
     subCategories: [
+      { id: 401, name: "Anniversary", url: "/ind/anniversary/anniversary" },
       {
-        name: "Anniversary",
-        url: "/ind/anniversary/anniversary",
-      },
-      {
+        id: 402,
         name: "Congratulations",
         url: "/ind/anniversary/congratulations",
       },
-      {
-        name: "Get Well Soon",
-        url: "/ind/anniversary/get-well",
-      },
-      {
-        name: "Thank You",
-        url: "/ind/anniversary/thank-you",
-      },
+      { id: 403, name: "Get Well Soon", url: "/ind/anniversary/get-well" },
+      { id: 404, name: "Thank You", url: "/ind/anniversary/thank-you" },
     ],
   },
+
   {
+    id: 5,
     category: "FLOWERS",
     url: "/ind/flowers",
     subCategories: [
-      {
-        name: "Roses",
-        url: "/ind/flowers/roses",
-      },
-      {
-        name: "Tulips",
-        url: "/ind/flowers/tulips",
-      },
-      {
-        name: "Lilies",
-        url: "/ind/flowers/lilies",
-      },
-      {
-        name: "Orchids",
-        url: "/ind/flowers/orchids",
-      },
-      {
-        name: "Mixed Bouquets",
-        url: "/ind/flowers/mixed",
-      },
-      {
-        name: "Seasonal Flowers",
-        url: "/ind/flowers/seasonal",
-      },
+      { id: 501, name: "Roses", url: "/ind/flowers/roses" },
+      { id: 502, name: "Tulips", url: "/ind/flowers/tulips" },
+      { id: 503, name: "Lilies", url: "/ind/flowers/lilies" },
+      { id: 504, name: "Orchids", url: "/ind/flowers/orchids" },
+      { id: 505, name: "Mixed Bouquets", url: "/ind/flowers/mixed" },
+      { id: 506, name: "Seasonal Flowers", url: "/ind/flowers/seasonal" },
     ],
   },
+
   {
+    id: 6,
     category: "PLANTS",
     url: "/ind/plants",
     subCategories: [
+      { id: 601, name: "Indoor Plants", url: "/ind/plants/indoor" },
+      { id: 602, name: "Flowering Plants", url: "/ind/plants/flowering" },
       {
-        name: "Indoor Plants",
-        url: "/ind/plants/indoor",
-      },
-      {
-        name: "Flowering Plants",
-        url: "/ind/plants/flowering",
-      },
-      {
+        id: 603,
         name: "Succulents & Cacti",
         url: "/ind/plants/succulents",
       },
-      {
-        name: "Low Light Plants",
-        url: "/ind/plants/low-light",
-      },
-      {
-        name: "Large Plants",
-        url: "/ind/plants/large",
-      },
+      { id: 604, name: "Low Light Plants", url: "/ind/plants/low-light" },
+      { id: 605, name: "Large Plants", url: "/ind/plants/large" },
     ],
   },
+
   {
+    id: 7,
     category: "GIFT BASKETS & FOOD",
     url: "/ind/gift-baskets",
     subCategories: [
+      { id: 701, name: "Gourmet Baskets", url: "/ind/gift-baskets/gourmet" },
+      { id: 702, name: "Fruit Baskets", url: "/ind/gift-baskets/fruit" },
       {
-        name: "Gourmet Baskets",
-        url: "/ind/gift-baskets/gourmet",
-      },
-      {
-        name: "Fruit Baskets",
-        url: "/ind/gift-baskets/fruit",
-      },
-      {
+        id: 703,
         name: "Chocolate Baskets",
         url: "/ind/gift-baskets/chocolate",
       },
       {
+        id: 704,
         name: "Wine & Cheese",
         url: "/ind/gift-baskets/wine-cheese",
       },
-      {
-        name: "Spa & Relaxation",
-        url: "/ind/gift-baskets/spa",
-      },
+      { id: 705, name: "Spa & Relaxation", url: "/ind/gift-baskets/spa" },
     ],
   },
+
   {
+    id: 8,
     category: "GIFTS & MORE",
     url: "/ind/gifts-more",
     subCategories: [
+      { id: 801, name: "Teddy Bears", url: "/ind/gifts-more/teddy-bears" },
+      { id: 802, name: "Gift Cards", url: "/ind/gifts-more/gift-cards" },
+      { id: 803, name: "Home Decor", url: "/ind/gifts-more/home-decor" },
+      { id: 804, name: "Candles", url: "/ind/gifts-more/candles" },
       {
-        name: "Teddy Bears",
-        url: "/ind/gifts-more/teddy-bears",
-      },
-      {
-        name: "Gift Cards",
-        url: "/ind/gifts-more/gift-cards",
-      },
-      {
-        name: "Home Decor",
-        url: "/ind/gifts-more/home-decor",
-      },
-      {
-        name: "Candles",
-        url: "/ind/gifts-more/candles",
-      },
-      {
+        id: 805,
         name: "Personalized Gifts",
         url: "/ind/gifts-more/personalized",
       },
     ],
   },
+
   {
+    id: 9,
     category: "SAME-DAY DELIVERY",
     url: "/ind/sameday",
     subCategories: [
+      { id: 901, name: "Same Day Flowers", url: "/ind/sameday/flowers" },
+      { id: 902, name: "Same Day Plants", url: "/ind/sameday/plants" },
+      { id: 903, name: "Same Day Gifts", url: "/ind/sameday/gifts" },
       {
-        name: "Same Day Flowers",
-        url: "/ind/sameday/flowers",
-      },
-      {
-        name: "Same Day Plants",
-        url: "/ind/sameday/plants",
-      },
-      {
-        name: "Same Day Gifts",
-        url: "/ind/sameday/gifts",
-      },
-      {
+        id: 904,
         name: "Last Minute Delivery",
         url: "/ind/sameday/last-minute",
       },
     ],
   },
+
   {
+    id: 10,
     category: "SALE",
     url: "/ind/sale",
     subCategories: [
-      {
-        name: "Clearance Flowers",
-        url: "/ind/sale/flowers",
-      },
-      {
-        name: "Discount Plants",
-        url: "/ind/sale/plants",
-      },
-      {
-        name: "Seasonal Sale",
-        url: "/ind/sale/seasonal",
-      },
-      {
-        name: "Bundle Deals",
-        url: "/ind/sale/bundles",
-      },
+      { id: 1001, name: "Clearance Flowers", url: "/ind/sale/flowers" },
+      { id: 1002, name: "Discount Plants", url: "/ind/sale/plants" },
+      { id: 1003, name: "Seasonal Sale", url: "/ind/sale/seasonal" },
+      { id: 1004, name: "Bundle Deals", url: "/ind/sale/bundles" },
     ],
   },
+
   {
+    id: 11,
     category: "COMMUNITY",
     url: "/ind/community",
     subCategories: [
+      { id: 1101, name: "Local Charities", url: "/ind/community/charities" },
       {
-        name: "Local Charities",
-        url: "/ind/community/charities",
-      },
-      {
+        id: 1102,
         name: "School Fundraisers",
         url: "/ind/community/schools",
       },
       {
+        id: 1103,
         name: "Hospital Donations",
         url: "/ind/community/hospitals",
       },
-      {
-        name: "Community Events",
-        url: "/ind/community/events",
-      },
+      { id: 1104, name: "Community Events", url: "/ind/community/events" },
     ],
   },
 ];
 
 const Flower_Data1 = [
   {
+    id: 1,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt5eb232318d3a6d1e/637e8388deb37610ecbb8e31/flower-delivery-same-day-silo-167891-260x284.jpeg?quality=75&auto=webp&optimize={medium}",
     name: "Same Day Delivery",
   },
   {
+    id: 2,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt26149ee749ecd0f3/62b5c27fa7c4490fd2ef03ef/magnificent-preserved-roses-silo-156623-260x284.jpeg?quality=75&auto=webp&optimize={medium}",
     name: "Love and Romance",
   },
   {
+    id: 3,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt867d5477b7adc192/627be2023debbf3afdd2ea1e/get-well-flowers-146761-silo-260x284.jpg?quality=75&auto=webp&optimize={medium}",
     name: "Get Well",
   },
   {
+    id: 4,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt358c381bc15c10ef/63bdb18a2effe86502073b30/chocolate-covered-strawberries-delivery-silo-192546-260x284.jpg?quality=75&auto=webp&optimize={medium}",
     name: "Chocolate Covered",
   },
   {
+    id: 5,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt180dd3fd2c5f4596/63bdb1a3ee0cf115ce1fc07c/just-because-flowers-silo-90577mprsv1-260x284.jpg?quality=75&auto=webp&optimize={medium}",
     name: "Just Because",
   },
   {
+    id: 6,
     img: "https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/bltcd2ef4bf9ed156ee/632de66c5710672259b3c66b/new-baby-flowers-silo-177706yw-260x284.jpg?quality=75&auto=webp&optimize={medium}",
     name: "New Baby",
   },

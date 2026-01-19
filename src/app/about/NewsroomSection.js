@@ -24,7 +24,7 @@ export default function NewsroomSection() {
     <section className="w-full bg-[#fffaf7] py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-[#0158BA] mb-14">
+        <h2 className="text-4xl md:text-5xl font-bold text-start text-[#0158BA] mb-14">
           From Our Newsroom
         </h2>
 
