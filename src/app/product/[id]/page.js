@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>

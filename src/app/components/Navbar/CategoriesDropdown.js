@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { FaChevronDown, FaChevronRight, FaLeaf } from "react-icons/fa";
+import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 import { Categories_Data } from "@/app/assets/Data";
 import VendorZoneDropdown from "./VendorZoneDropdown";
 import { useRouter } from "next/navigation";
@@ -13,13 +13,21 @@ export default function CategoriesDropdown() {
   const dropdownRef = useRef(null);
   const router = useRouter();
 
-  const handleCategoryClick = (id) => {
+  // Handle main category click
+  const handleCategoryClick = (id, e) => {
+    e.stopPropagation();
+    setOpen(false);
+    setHoveredCategory(null);
     router.push(
       `/products?category_id=${id}&data_from=category&offer_type=&page=1`,
     );
   };
 
-  const handleSubCategoryClick = (id) => {
+  // Handle subcategory click
+  const handleSubCategoryClick = (id, e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setOpen(false); // Close dropdown
+    setHoveredCategory(null); // Clear hover state
     router.push(`/products?sub_category_id=${id}&data_from=category&page=1`);
   };
 
@@ -36,16 +44,37 @@ export default function CategoriesDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Optional: Add keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setHoveredCategory(null);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   return (
     <div className="relative" ref={dropdownRef}>
       {/* ================= CATEGORY BUTTON ================= */}
       <div className="flex items-center gap-6">
         <button
+          onClick={() => setOpen(!open)}
           onMouseEnter={() => setOpen(true)}
           className="cursor-pointer flex items-center gap-2 bg-white text-green-600 text-sm font-semibold px-4 py-3 border border-green-600 rounded-lg hover:bg-green-50 transition"
+          aria-expanded={open}
+          aria-haspopup="true"
         >
           Categories
-          <FaChevronDown className="text-sm ml-1" />
+          <FaChevronDown
+            className={`text-sm ml-1 transition-transform ${open ? "rotate-180" : ""}`}
+          />
         </button>
 
         {/* ================= NAV LINKS ================= */}
@@ -83,24 +112,32 @@ export default function CategoriesDropdown() {
       {/* ================= MAIN DROPDOWN ================= */}
       {open && (
         <div
-          className="absolute top-full left-0 mt-2 flex bg-white shadow-lg rounded-lg z-50"
+          className="absolute top-full left-0 mt-2 flex bg-white shadow-lg rounded-lg z-50 border border-gray-200"
           onMouseLeave={() => {
             setOpen(false);
             setHoveredCategory(null);
           }}
         >
           {/* ===== LEFT: MAIN CATEGORIES ===== */}
-          <ul className="w-64 border-r">
+          <ul className="w-64 border-r rounded-l-lg overflow-hidden">
             {Categories_Data.map((el) => (
               <li
-                key={el.category}
+                key={el.id}
                 onMouseEnter={() => setHoveredCategory(el)}
-                onClick={() => handleCategoryClick(el.id)}
-                className="flex justify-between items-center px-4 py-3 text-sm cursor-pointer hover:bg-gray-100"
+                onClick={(e) => handleCategoryClick(el.id, e)}
+                className="flex justify-between items-center px-4 py-3 text-sm cursor-pointer hover:bg-gray-100 transition-colors"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleCategoryClick(el.id, e);
+                  }
+                }}
               >
-                <Link href={el.url} className="flex-1">
+                <span className="flex-1 font-medium text-gray-800">
                   {el.category}
-                </Link>
+                </span>
                 <FaChevronRight className="text-xs text-gray-400" />
               </li>
             ))}
@@ -108,21 +145,34 @@ export default function CategoriesDropdown() {
 
           {/* ===== RIGHT: SUB CATEGORIES ===== */}
           {hoveredCategory && (
-            <ul className="w-64 bg-gray-50">
-              {hoveredCategory.subCategories.map((sub) => (
-                <li
-                  key={sub.id}
-                  onClick={() => handleSubCategoryClick(sub.id)}
-                  className="px-4 py-3 text-sm cursor-pointer hover:bg-gray-200"
-                >
-                  <Link
-                    href={`/products?sub_category_id=${sub.id}&data_from=category&page=1`}
+            <div className="w-64 rounded-r-lg overflow-hidden">
+              <div className="px-4 py-2 bg-gray-100 border-b">
+                <h3 className="font-semibold text-gray-800">
+                  {hoveredCategory.category}
+                </h3>
+              </div>
+              <ul className="bg-gray-50 max-h-80 overflow-y-auto">
+                {hoveredCategory.subCategories.map((sub) => (
+                  <li
+                    key={sub.id}
+                    onClick={(e) => handleSubCategoryClick(sub.id, e)}
+                    className="px-4 py-3 text-sm cursor-pointer hover:bg-gray-200 transition-colors"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleSubCategoryClick(sub.id, e);
+                      }
+                    }}
                   >
-                    {sub.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <span className="text-gray-700 hover:text-green-600">
+                      {sub.name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       )}

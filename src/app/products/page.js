@@ -5,9 +5,18 @@ import { FaSearch } from "react-icons/fa";
 import PriceFilter from "../discounts/PriceFilter";
 import { Categories_Data } from "../assets/Data";
 import CategoryItem from "../discounts/CategoryItem";
+import { useSearchParams } from "next/navigation";
+import { productData } from "../assets/data/productData";
 
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+
+  const categoryId = Number(searchParams.get("category_id"));
+
+  const filteredProducts = categoryId
+    ? productData.filter((item) => item.category_id === categoryId)
+    : productData;
 
   return (
     <div className="bg-gray-100 min-h-screen">
