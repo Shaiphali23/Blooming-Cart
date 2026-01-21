@@ -27,6 +27,7 @@ export default function ProductDetailPage() {
   const router = useRouter();
 
   const product = productData.find((item) => item.id === Number(id));
+  console.log("Products", product);
   const [selectedImage, setSelectedImage] = useState(product.image);
 
   if (!product) {
@@ -215,7 +216,7 @@ export default function ProductDetailPage() {
                 {/* Buy Now */}
                 <button
                   className="w-full py-3.5 border-2 border-black text-black rounded-lg font-semibold hover:bg-black hover:text-white transition-all cursor-pointer"
-                  onClick={() => router.push("/billing")}
+                  onClick={() => router.push(`/buy-now/${product.id}`)}
                 >
                   Buy Now
                 </button>

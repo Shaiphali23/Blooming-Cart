@@ -265,16 +265,16 @@ export default function ProductsPage() {
                   </div>
                 )}
 
-                {/* Products Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {/* Products Grid - Square Layout */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                   {filteredProducts.map((product) => (
                     <div
                       key={product.id}
-                      className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                      onClick={() => router.push(`/product/${product.id}`)} // Add product detail page navigation
+                      className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 cursor-pointer flex flex-col h-full"
+                      onClick={() => router.push(`/product/${product.id}`)}
                     >
-                      {/* Image */}
-                      <div className="relative w-full h-48">
+                      {/* Square Image Container */}
+                      <div className="relative w-full aspect-square">
                         <img
                           src={product.image}
                           alt={product.productname}
@@ -287,19 +287,20 @@ export default function ProductsPage() {
                         )}
                       </div>
 
-                      {/* Content */}
-                      <div className="p-4">
-                        <h3 className="text-sm font-semibold text-gray-900 leading-tight mb-2 line-clamp-2">
+                      {/* Content Container - Fixed Height */}
+                      <div className="p-4 flex flex-col flex-grow">
+                        <h3 className="text-sm font-semibold text-gray-900 leading-tight mb-2 line-clamp-2 min-h-[40px]">
                           {product.productname}
                         </h3>
 
                         {product.description && (
-                          <p className="text-xs text-gray-600 mb-3 line-clamp-2">
+                          <p className="text-xs text-gray-600 mb-3 line-clamp-2 min-h-[36px]">
                             {product.description}
                           </p>
                         )}
 
-                        <div className="mt-4">
+                        {/* Price Section */}
+                        <div className="mt-auto">
                           <div className="flex items-center gap-2">
                             {product.price && (
                               <span className="text-gray-400 line-through text-sm">
@@ -320,8 +321,8 @@ export default function ProductsPage() {
                           )}
                         </div>
 
-                        {/* Category Badge */}
-                        <div className="mt-4 flex justify-between items-center">
+                        {/* Category and Button Section */}
+                        <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                           <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
                             {product.category}
                           </span>
