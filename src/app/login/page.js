@@ -55,7 +55,7 @@ export default function LoginPage() {
         backgroundImage: "url('/images/signup_backcover.jpg')",
       }}
     >
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg border border-gray-200">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg border border-gray-200 my-4">
         {/* Header */}
         <div className="bg-[#F2F5FC] rounded-t-xl pt-12 pb-6 text-center">
           <Link href="/">

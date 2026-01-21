@@ -25,9 +25,9 @@ export default function CategoriesDropdown() {
 
   // Handle subcategory click
   const handleSubCategoryClick = (id, e) => {
-    e.stopPropagation(); // Prevent event bubbling
-    setOpen(false); // Close dropdown
-    setHoveredCategory(null); // Clear hover state
+    e.stopPropagation();
+    setOpen(false);
+    setHoveredCategory(null);
     router.push(`/products?sub_category_id=${id}&data_from=category&page=1`);
   };
 
