@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
+import { useState, useEffect, useMemo } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import PriceFilter from "../discounts/PriceFilter";
 import { Categories_Data } from "../assets/Data";
@@ -13,13 +13,42 @@ const getCategoryNameById = (id) => {
   return category ? category.category.toLowerCase() : "all";
 };
 
+// Function to extract unique brands from products
+const extractUniqueBrands = (products) => {
+  const brands = new Set();
+  products.forEach((product) => {
+    const brandMatch = product.productname.match(/^(.*?)\s/);
+    if (brandMatch && brandMatch[1]) {
+      brands.add(brandMatch[1]);
+    }
+  });
+  return Array.from(brands).sort();
+};
+
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [sortBy, setSortBy] = useState("default");
+  const [filterBy, setFilterBy] = useState("default");
+  const [brandSearch, setBrandSearch] = useState("");
+  const [showBrands, setShowBrands] = useState(true);
+
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Get all unique brands from product data
+  const allBrands = useMemo(() => extractUniqueBrands(productData), []);
+
+  // Filter brands based on search
+  const filteredBrands = useMemo(() => {
+    return allBrands.filter((brand) =>
+      brand.toLowerCase().includes(brandSearch.toLowerCase()),
+    );
+  }, [allBrands, brandSearch]);
 
   // Get category_id from URL
   useEffect(() => {
@@ -30,9 +59,9 @@ export default function ProductsPage() {
     }
   }, [searchParams]);
 
-  // Filter products based on selected category and search
+  // Apply all filters
   useEffect(() => {
-    let filtered = productData;
+    let filtered = [...productData];
 
     // Filter by category
     if (selectedCategory !== "all") {
@@ -57,8 +86,80 @@ export default function ProductsPage() {
       );
     }
 
+    // Filter by selected brands
+    if (selectedBrands.length > 0) {
+      filtered = filtered.filter((product) => {
+        const brandMatch = product.productname.match(/^(.*?)\s/);
+        return (
+          brandMatch && brandMatch[1] && selectedBrands.includes(brandMatch[1])
+        );
+      });
+    }
+
+    // Filter by price range
+    filtered = filtered.filter((product) => {
+      const price = product.strike_price || product.price || 0;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    // Apply sorting
+    if (sortBy !== "default") {
+      filtered.sort((a, b) => {
+        const priceA = a.strike_price || a.price || 0;
+        const priceB = b.strike_price || b.price || 0;
+
+        switch (sortBy) {
+          case "price-low-high":
+            return priceA - priceB;
+          case "price-high-low":
+            return priceB - priceA;
+          case "name-a-z":
+            return a.productname.localeCompare(b.productname);
+          case "name-z-a":
+            return b.productname.localeCompare(a.productname);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    // Apply additional filters
+    if (filterBy !== "default") {
+      switch (filterBy) {
+        case "best-selling":
+          // Sort by highest discount percentage
+          filtered.sort((a, b) => {
+            const discountA =
+              ((a.price - (a.strike_price || a.price)) / a.price) * 100;
+            const discountB =
+              ((b.price - (b.strike_price || b.price)) / b.price) * 100;
+            return discountB - discountA;
+          });
+          break;
+        case "top-rated":
+          // Sort by price (lower is better for rating)
+          filtered.sort((a, b) => {
+            const priceA = a.strike_price || a.price || 0;
+            const priceB = b.strike_price || b.price || 0;
+            return priceA - priceB;
+          });
+          break;
+        case "most-favorite":
+          // Sort by name (alphabetical)
+          filtered.sort((a, b) => a.productname.localeCompare(b.productname));
+          break;
+      }
+    }
+
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery]);
+  }, [
+    selectedCategory,
+    searchQuery,
+    selectedBrands,
+    priceRange,
+    sortBy,
+    filterBy,
+  ]);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category.toLowerCase());
@@ -70,6 +171,8 @@ export default function ProductsPage() {
         `/products?category_id=${categoryObj.id}&data_from=category&offer_type=&page=1`,
         { shallow: true },
       );
+    } else {
+      router.push("/products", { shallow: true });
     }
   };
 
@@ -82,7 +185,44 @@ export default function ProductsPage() {
     setSelectedCategory("all");
     setSearch("");
     setSearchQuery("");
+    setSelectedBrands([]);
+    setPriceRange([0, 1000]);
+    setSortBy("default");
+    setFilterBy("default");
+    setBrandSearch("");
     router.push("/products", { shallow: true });
+  };
+
+  const handleBrandToggle = (brand) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand],
+    );
+  };
+
+  const handlePriceChange = (newRange) => {
+    setPriceRange(newRange);
+  };
+
+  const handleClearBrands = () => {
+    setSelectedBrands([]);
+    setBrandSearch("");
+  };
+
+  const handleClearSearch = () => {
+    setSearch("");
+    setSearchQuery("");
+  };
+
+  const hasActiveFilters = () => {
+    return (
+      selectedCategory !== "all" ||
+      searchQuery.trim() !== "" ||
+      selectedBrands.length > 0 ||
+      priceRange[0] > 0 ||
+      priceRange[1] < 1000 ||
+      sortBy !== "default" ||
+      filterBy !== "default"
+    );
   };
 
   return (
@@ -103,12 +243,12 @@ export default function ProductsPage() {
                 {filteredProducts.length === 1 ? "Item" : "Items"} found
               </p>
             </div>
-            {selectedCategory !== "all" && (
+            {hasActiveFilters() && (
               <button
                 onClick={handleResetFilters}
                 className="text-sm text-green-600 hover:text-green-800 underline"
               >
-                Clear Filter
+                Clear All Filters
               </button>
             )}
           </div>
@@ -127,6 +267,15 @@ export default function ProductsPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full px-4 py-3 pr-14 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
               />
+              {search && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <FaTimes className="text-sm" />
+                </button>
+              )}
               <button
                 type="submit"
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-500 px-3 py-2 rounded-md cursor-pointer hover:bg-green-600"
@@ -136,25 +285,87 @@ export default function ProductsPage() {
             </form>
 
             {/* Sort By */}
-            <select className="border px-5 py-3 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500">
-              <option>Sort By</option>
-              <option>Price: (Low to High)</option>
-              <option>Price: (High to Low)</option>
-              <option>Rating: (Low to High)</option>
-              <option>Rating: (High to Low)</option>
-              <option>Alphabetical: (A To Z)</option>
-              <option>Alphabetical: (Z To A)</option>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="border px-5 py-3 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500"
+            >
+              <option value="default">Sort By</option>
+              <option value="price-low-high">Price: (Low to High)</option>
+              <option value="price-high-low">Price: (High to Low)</option>
+              <option value="name-a-z">Alphabetical: (A To Z)</option>
+              <option value="name-z-a">Alphabetical: (Z To A)</option>
             </select>
 
             {/* Filter By */}
-            <select className="border px-5 py-3 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500">
-              <option>Filter By</option>
-              <option>Best Selling</option>
-              <option>Top Rated</option>
-              <option>Most Favorite</option>
+            <select
+              value={filterBy}
+              onChange={(e) => setFilterBy(e.target.value)}
+              className="border px-5 py-3 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500"
+            >
+              <option value="default">Filter By</option>
+              <option value="best-selling">Best Selling</option>
+              <option value="top-rated">Top Rated</option>
+              <option value="most-favorite">Most Favorite</option>
             </select>
           </div>
         </div>
+
+        {/* ================= ACTIVE FILTERS ================= */}
+        {(searchQuery ||
+          selectedBrands.length > 0 ||
+          priceRange[0] > 0 ||
+          priceRange[1] < 1000) && (
+          <div className="mt-4 p-3 bg-white rounded-lg shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-semibold text-sm">Active Filters:</h3>
+              <button
+                onClick={handleResetFilters}
+                className="text-xs text-green-600 hover:text-green-800"
+              >
+                Clear All
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {searchQuery && (
+                <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                  Search: "{searchQuery}"
+                  <button
+                    onClick={handleClearSearch}
+                    className="hover:text-green-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              )}
+              {selectedBrands.map((brand) => (
+                <span
+                  key={brand}
+                  className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full"
+                >
+                  {brand}
+                  <button
+                    onClick={() => handleBrandToggle(brand)}
+                    className="hover:text-blue-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              ))}
+              {(priceRange[0] > 0 || priceRange[1] < 1000) && (
+                <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">
+                  Price: ${priceRange[0]} - ${priceRange[1]}
+                  <button
+                    onClick={() => setPriceRange([0, 1000])}
+                    className="hover:text-purple-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* ================= MAIN CONTENT ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
@@ -162,23 +373,35 @@ export default function ProductsPage() {
           <div className="bg-white p-4 rounded-lg shadow-sm space-y-6">
             <div className="flex justify-between items-center">
               <h1 className="text-lg font-semibold">Filter By</h1>
-              {selectedCategory !== "all" && (
+              {hasActiveFilters() && (
                 <button
-                  onClick={() => setSelectedCategory("all")}
+                  onClick={handleResetFilters}
                   className="text-sm text-green-600 hover:text-green-800"
                 >
-                  Reset
+                  Reset All
                 </button>
               )}
             </div>
 
             {/* Price Filter */}
-            <PriceFilter />
+            <div>
+              <h3 className="font-semibold mb-3">Price Range</h3>
+              <PriceFilter
+                onChange={handlePriceChange}
+                value={priceRange}
+                min={0}
+                max={1000}
+              />
+              <div className="flex justify-between mt-2 text-sm text-gray-600">
+                <span>${priceRange[0]}</span>
+                <span>${priceRange[1]}</span>
+              </div>
+            </div>
 
             {/* Categories */}
             <div className="mt-6">
               <h3 className="font-semibold mb-3">Categories</h3>
-              <div className="space-y-1">
+              <div className="space-y-1 max-h-60 overflow-y-auto">
                 <button
                   onClick={() => handleCategorySelect("all")}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm ${
@@ -208,29 +431,78 @@ export default function ProductsPage() {
 
             {/* Brands */}
             <div>
-              <h3 className="font-semibold mb-2">Brands</h3>
-              <div className="relative mb-3">
-                <input
-                  type="text"
-                  placeholder="Search by brand"
-                  className="w-full border px-3 pr-10 py-2 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
-                />
-                <div className="absolute inset-y-0 right-0 top-3 right-4 flex items-center pr-3 pointer-events-none">
-                  <FaSearch className="h-4 w-4 text-gray-400" />
-                </div>
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="font-semibold">Brands</h3>
+                <button
+                  onClick={() => setShowBrands(!showBrands)}
+                  className="text-sm text-green-600 hover:text-green-800"
+                >
+                  {showBrands ? "Hide" : "Show"}
+                </button>
               </div>
 
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-center gap-2">
-                  <input type="checkbox" /> Brand A
-                </li>
-                <li className="flex items-center gap-2">
-                  <input type="checkbox" /> Brand B
-                </li>
-                <li className="flex items-center gap-2">
-                  <input type="checkbox" /> Brand C
-                </li>
-              </ul>
+              {showBrands && (
+                <>
+                  <div className="relative mb-3">
+                    <input
+                      type="text"
+                      placeholder="Search by brand"
+                      value={brandSearch}
+                      onChange={(e) => setBrandSearch(e.target.value)}
+                      className="w-full border px-3 pr-10 py-2 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                    />
+                    <div className="absolute inset-y-0 right-0 top-3 right-4 flex items-center pr-3 pointer-events-none">
+                      <FaSearch className="h-4 w-4 text-gray-400" />
+                    </div>
+                    {brandSearch && (
+                      <button
+                        onClick={() => setBrandSearch("")}
+                        className="absolute inset-y-0 right-8 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        <FaTimes className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  {filteredBrands.length > 0 ? (
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {filteredBrands.map((brand) => (
+                        <div
+                          key={brand}
+                          className="flex items-center gap-2 text-sm text-gray-700"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedBrands.includes(brand)}
+                            onChange={() => handleBrandToggle(brand)}
+                            className="rounded text-green-500 focus:ring-green-500"
+                          />
+                          <span
+                            className={
+                              selectedBrands.includes(brand)
+                                ? "font-medium text-green-700"
+                                : ""
+                            }
+                          >
+                            {brand}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No brands found</p>
+                  )}
+
+                  {selectedBrands.length > 0 && (
+                    <button
+                      onClick={handleClearBrands}
+                      className="mt-3 text-sm text-green-600 hover:text-green-800"
+                    >
+                      Clear selected brands
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
@@ -242,8 +514,11 @@ export default function ProductsPage() {
                   No products found
                 </h3>
                 <p className="text-gray-500 mt-2">
-                  {searchQuery
-                    ? `No results for "${searchQuery}"`
+                  {searchQuery ||
+                  selectedBrands.length > 0 ||
+                  priceRange[0] > 0 ||
+                  priceRange[1] < 1000
+                    ? "Try adjusting your filters or search terms."
                     : "Try selecting a different category."}
                 </p>
                 <button
@@ -261,6 +536,30 @@ export default function ProductsPage() {
                     <p className="text-sm text-blue-700">
                       Showing results for:{" "}
                       <span className="font-semibold">"{searchQuery}"</span>
+                    </p>
+                  </div>
+                )}
+
+                {/* Active Filters Summary */}
+                {(selectedBrands.length > 0 ||
+                  priceRange[0] > 0 ||
+                  priceRange[1] < 1000) && (
+                  <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-700">
+                      Filtered by:{" "}
+                      {selectedBrands.length > 0 && (
+                        <span className="font-medium">
+                          Brands ({selectedBrands.join(", ")})
+                        </span>
+                      )}
+                      {selectedBrands.length > 0 &&
+                        (priceRange[0] > 0 || priceRange[1] < 1000) &&
+                        ", "}
+                      {priceRange[0] > 0 || priceRange[1] < 1000 ? (
+                        <span className="font-medium">
+                          Price (${priceRange[0]} - ${priceRange[1]})
+                        </span>
+                      ) : null}
                     </p>
                   </div>
                 )}
