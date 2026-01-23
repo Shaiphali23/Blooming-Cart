@@ -338,6 +338,7 @@ export default function ProductsPage() {
                   </button>
                 </span>
               )}
+
               {selectedBrands.map((brand) => (
                 <span
                   key={brand}
@@ -352,6 +353,7 @@ export default function ProductsPage() {
                   </button>
                 </span>
               ))}
+
               {(priceRange[0] > 0 || priceRange[1] < 1000) && (
                 <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">
                   Price: ${priceRange[0]} - ${priceRange[1]}
@@ -368,7 +370,7 @@ export default function ProductsPage() {
         )}
 
         {/* ================= MAIN CONTENT ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 mt-6">
           {/* ================= LEFT FILTER ================= */}
           <div className="bg-white p-4 rounded-lg shadow-sm space-y-6">
             <div className="flex justify-between items-center">
@@ -385,7 +387,6 @@ export default function ProductsPage() {
 
             {/* Price Filter */}
             <div>
-              <h3 className="font-semibold mb-3">Price Range</h3>
               <PriceFilter
                 onChange={handlePriceChange}
                 value={priceRange}
@@ -507,7 +508,7 @@ export default function ProductsPage() {
           </div>
 
           {/* ================= PRODUCTS ================= */}
-          <div className="lg:col-span-3">
+          <div className="w-full">
             {filteredProducts.length === 0 ? (
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
                 <h3 className="text-lg font-semibold text-gray-700">
@@ -529,111 +530,69 @@ export default function ProductsPage() {
                 </button>
               </div>
             ) : (
-              <>
-                {/* Search Results Info */}
-                {searchQuery && (
-                  <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-blue-700">
-                      Showing results for:{" "}
-                      <span className="font-semibold">"{searchQuery}"</span>
-                    </p>
-                  </div>
-                )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    onClick={() => router.push(`/product/${product?.id}`)}
+                    className="w-full bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col overflow-hidden"
+                  >
+                    {/* ===== IMAGE ===== */}
+                    <div className="relative w-full h-48 bg-gray-100">
+                      <img
+                        src={product.image}
+                        alt={product.productname}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
 
-                {/* Active Filters Summary */}
-                {(selectedBrands.length > 0 ||
-                  priceRange[0] > 0 ||
-                  priceRange[1] < 1000) && (
-                  <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-700">
-                      Filtered by:{" "}
-                      {selectedBrands.length > 0 && (
-                        <span className="font-medium">
-                          Brands ({selectedBrands.join(", ")})
-                        </span>
+                    {/* ===== CONTENT ===== */}
+                    <div className="p-4 flex flex-col flex-grow">
+                      {/* Title */}
+                      <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2">
+                        {product.productname}
+                      </h3>
+
+                      {/* Description */}
+                      {product.description && (
+                        <p className="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+                          {product.description}
+                        </p>
                       )}
-                      {selectedBrands.length > 0 &&
-                        (priceRange[0] > 0 || priceRange[1] < 1000) &&
-                        ", "}
-                      {priceRange[0] > 0 || priceRange[1] < 1000 ? (
-                        <span className="font-medium">
-                          Price (${priceRange[0]} - ${priceRange[1]})
-                        </span>
-                      ) : null}
-                    </p>
-                  </div>
-                )}
 
-                {/* Products Grid - Square Layout */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                  {filteredProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 cursor-pointer flex flex-col h-full"
-                      onClick={() => router.push(`/product/${product.id}`)}
-                    >
-                      {/* Square Image Container */}
-                      <div className="relative w-full aspect-square">
-                        <img
-                          src={product.image}
-                          alt={product.productname}
-                          className="w-full h-full object-cover"
-                        />
-                        {product.strike_price && (
-                          <span className="absolute top-3 left-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-md">
-                            ≤₹{product.strike_price.toFixed(2)}
+                      {/* Price */}
+                      <div className="mt-3 flex items-center gap-3">
+                        {product.price && (
+                          <span className="text-sm text-gray-400 line-through">
+                            ₹{product.price.toFixed(2)}
                           </span>
                         )}
+                        <span className="text-lg font-bold text-gray-900">
+                          ₹{product.strike_price}
+                        </span>
                       </div>
 
-                      {/* Content Container - Fixed Height */}
-                      <div className="p-4 flex flex-col flex-grow">
-                        <h3 className="text-sm font-semibold text-gray-900 leading-tight mb-2 line-clamp-2 min-h-[40px]">
-                          {product.productname}
-                        </h3>
+                      {/* Size */}
+                      {product.size && (
+                        <p className="text-xs text-green-600 mt-1">
+                          {product.size}
+                        </p>
+                      )}
 
-                        {product.description && (
-                          <p className="text-xs text-gray-600 mb-3 line-clamp-2 min-h-[36px]">
-                            {product.description}
-                          </p>
-                        )}
+                      {/* Footer */}
+                      <div className="mt-auto pt-4 flex justify-between items-center">
+                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                          {product.category}
+                        </span>
 
-                        {/* Price Section */}
-                        <div className="mt-auto">
-                          <div className="flex items-center gap-2">
-                            {product.price && (
-                              <span className="text-gray-400 line-through text-sm">
-                                ₹{product.price.toFixed(2)}
-                              </span>
-                            )}
-                            {product.strike_price && (
-                              <span className="text-lg font-bold text-gray-900">
-                                ₹{product.strike_price.toFixed(2)}
-                              </span>
-                            )}
-                          </div>
-
-                          {product.size && (
-                            <p className="text-xs text-green-600 mt-1">
-                              {product.size}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Category and Button Section */}
-                        <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                          <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                            {product.category}
-                          </span>
-                          <button className="text-sm text-green-600 hover:text-green-800 font-medium">
-                            View Details →
-                          </button>
-                        </div>
+                        <button className="text-sm text-green-600 hover:text-green-800 font-medium">
+                          View Details →
+                        </button>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>
