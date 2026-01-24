@@ -31,11 +31,11 @@ export default function CheckoutPage() {
 
   const totalAmount = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
-    0
+    0,
   );
 
   const isAddressValid = Object.values(address).every(
-    (value) => value.trim() !== ""
+    (value) => value.trim() !== "",
   );
 
   const handlePlaceOrder = () => {

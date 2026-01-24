@@ -27,15 +27,17 @@ const extractUniqueBrands = (products) => {
 
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState("default");
   const [filterBy, setFilterBy] = useState("default");
   const [brandSearch, setBrandSearch] = useState("");
   const [showBrands, setShowBrands] = useState(true);
+  const PRODUCTS_PER_PAGE = 20;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -96,10 +98,14 @@ export default function ProductsPage() {
       });
     }
 
-    // Filter by price range
+    // PRICE FILTER
     filtered = filtered.filter((product) => {
-      const price = product.strike_price || product.price || 0;
-      return price >= priceRange[0] && price <= priceRange[1];
+      const finalPrice = Number(product.strike_price);
+      console.log("Final Price", finalPrice);
+
+      if (isNaN(finalPrice)) return false;
+
+      return finalPrice >= priceRange[0] && finalPrice <= priceRange[1];
     });
 
     // Apply sorting
@@ -151,6 +157,7 @@ export default function ProductsPage() {
       }
     }
 
+    setCurrentPage(1);
     setFilteredProducts(filtered);
   }, [
     selectedCategory,
@@ -160,6 +167,14 @@ export default function ProductsPage() {
     sortBy,
     filterBy,
   ]);
+
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+    const endIndex = startIndex + PRODUCTS_PER_PAGE;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, currentPage]);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category.toLowerCase());
@@ -326,6 +341,7 @@ export default function ProductsPage() {
                 Clear All
               </button>
             </div>
+
             <div className="flex flex-wrap gap-2">
               {searchQuery && (
                 <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
@@ -370,10 +386,13 @@ export default function ProductsPage() {
         )}
 
         {/* ================= MAIN CONTENT ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6 mt-6">
           {/* ================= LEFT FILTER ================= */}
-          <div className="bg-white p-4 rounded-lg shadow-sm space-y-6">
-            <div className="flex justify-between items-center">
+          <div
+            className="bg-white p-4 rounded-lg shadow-sm space-y-6 
+                lg:sticky lg:top-6 h-fit"
+          >
+            <div className="flex justify-between">
               <h1 className="text-lg font-semibold">Filter By</h1>
               {hasActiveFilters() && (
                 <button
@@ -508,8 +527,8 @@ export default function ProductsPage() {
           </div>
 
           {/* ================= PRODUCTS ================= */}
-          <div className="w-full">
-            {filteredProducts.length === 0 ? (
+          <div className="w-full min-w-0">
+            {paginatedProducts.length === 0 ? (
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
                 <h3 className="text-lg font-semibold text-gray-700">
                   No products found
@@ -530,69 +549,105 @@ export default function ProductsPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <div
-                    key={product.id}
-                    onClick={() => router.push(`/product/${product?.id}`)}
-                    className="w-full bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col overflow-hidden"
-                  >
-                    {/* ===== IMAGE ===== */}
-                    <div className="relative w-full h-48 bg-gray-100">
-                      <img
-                        src={product.image}
-                        alt={product.productname}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {paginatedProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => router.push(`/product/${product?.id}`)}
+                      className="w-full bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col overflow-hidden"
+                    >
+                      {/* ===== IMAGE ===== */}
+                      <div className="relative w-full h-48 bg-gray-100">
+                        <img
+                          src={product.image}
+                          alt={product.productname}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
 
-                    {/* ===== CONTENT ===== */}
-                    <div className="p-4 flex flex-col flex-grow">
-                      {/* Title */}
-                      <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2">
-                        {product.productname}
-                      </h3>
+                      {/* ===== CONTENT ===== */}
+                      <div className="p-4 flex flex-col flex-grow">
+                        {/* Title */}
+                        <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2">
+                          {product.productname}
+                        </h3>
 
-                      {/* Description */}
-                      {product.description && (
-                        <p className="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
-                          {product.description}
-                        </p>
-                      )}
-
-                      {/* Price */}
-                      <div className="mt-3 flex items-center gap-3">
-                        {product.price && (
-                          <span className="text-sm text-gray-400 line-through">
-                            ₹{product.price.toFixed(2)}
-                          </span>
+                        {/* Description */}
+                        {product.description && (
+                          <p className="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+                            {product.description}
+                          </p>
                         )}
-                        <span className="text-lg font-bold text-gray-900">
-                          ₹{product.strike_price}
-                        </span>
-                      </div>
 
-                      {/* Size */}
-                      {product.size && (
-                        <p className="text-xs text-green-600 mt-1">
-                          {product.size}
-                        </p>
-                      )}
+                        {/* Price */}
+                        <div className="mt-3 flex items-center gap-3">
+                          {product.price && (
+                            <span className="text-sm text-gray-400 line-through">
+                              ₹{product.price.toFixed(2)}
+                            </span>
+                          )}
+                          <span className="text-lg font-bold text-gray-900">
+                            ₹{product.strike_price}
+                          </span>
+                        </div>
 
-                      {/* Footer */}
-                      <div className="mt-auto pt-4 flex justify-between items-center">
-                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                          {product.category}
-                        </span>
+                        {/* Size */}
+                        {product.size && (
+                          <p className="text-xs text-green-600 mt-1">
+                            {product.size}
+                          </p>
+                        )}
 
-                        <button className="text-sm text-green-600 hover:text-green-800 font-medium">
-                          View Details →
-                        </button>
+                        {/* Footer */}
+                        <div className="mt-auto pt-4 flex justify-between items-center">
+                          <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                            {product.category}
+                          </span>
+
+                          <button className="text-sm text-green-600 hover:text-green-800 font-medium">
+                            View Details →
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-10 gap-2">
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((p) => p - 1)}
+                      className="px-4 py-2 border rounded disabled:opacity-50"
+                    >
+                      Prev
+                    </button>
+
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentPage(index + 1)}
+                        className={`px-4 py-2 rounded ${
+                          currentPage === index + 1
+                            ? "bg-green-500 text-white"
+                            : "border"
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
+
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((p) => p + 1)}
+                      className="px-4 py-2 border rounded disabled:opacity-50"
+                    >
+                      Next
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         </div>
