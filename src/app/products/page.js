@@ -100,12 +100,14 @@ export default function ProductsPage() {
 
     // PRICE FILTER
     filtered = filtered.filter((product) => {
-      const finalPrice = Number(product.strike_price);
-      console.log("Final Price", finalPrice);
+      const price = Number(
+        String(product.strike_price ?? product.price ?? 0).replace(
+          /[^0-9.]/g,
+          "",
+        ),
+      );
 
-      if (isNaN(finalPrice)) return false;
-
-      return finalPrice >= priceRange[0] && finalPrice <= priceRange[1];
+      return price >= priceRange[0] && price <= priceRange[1];
     });
 
     // Apply sorting
@@ -178,9 +180,11 @@ export default function ProductsPage() {
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category.toLowerCase());
+
     const categoryObj = Categories_Data.find(
       (cat) => cat.category.toLowerCase() === category.toLowerCase(),
     );
+
     if (categoryObj) {
       router.push(
         `/products?category_id=${categoryObj.id}&data_from=category&offer_type=&page=1`,
@@ -388,10 +392,7 @@ export default function ProductsPage() {
         {/* ================= MAIN CONTENT ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6 mt-6">
           {/* ================= LEFT FILTER ================= */}
-          <div
-            className="bg-white p-4 rounded-lg shadow-sm space-y-6 
-                lg:sticky lg:top-6 h-fit"
-          >
+          <div className="bg-white p-4 rounded-lg shadow-sm space-y-6 lg:sticky lg:top-6 h-fit">
             <div className="flex justify-between">
               <h1 className="text-lg font-semibold">Filter By</h1>
               {hasActiveFilters() && (
@@ -421,6 +422,7 @@ export default function ProductsPage() {
             {/* Categories */}
             <div className="mt-6">
               <h3 className="font-semibold mb-3">Categories</h3>
+
               <div className="space-y-1 max-h-60 overflow-y-auto">
                 <button
                   onClick={() => handleCategorySelect("all")}
@@ -527,7 +529,7 @@ export default function ProductsPage() {
           </div>
 
           {/* ================= PRODUCTS ================= */}
-          <div className="w-full min-w-0">
+          <div className="w-full">
             {paginatedProducts.length === 0 ? (
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
                 <h3 className="text-lg font-semibold text-gray-700">

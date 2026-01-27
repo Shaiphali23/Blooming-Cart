@@ -3,6 +3,7 @@ import ImageSection from "../app/components/landingPage/ImageSection";
 import SearchSection from "../app/components/landingPage/SearchSection";
 import TopSection from "../app/components/landingPage/TopSection";
 import ReviewSection from "../app/components/landingPage/ReviewSection";
+import ValentineSection from "./components/landingPage/ValentineSection";
 
 import Flower_Data1, { Flower_Data2, Flower_Data3 } from "../app/assets/Data";
 
@@ -35,6 +36,8 @@ export default function HomePage() {
       <ImageSection img="https://images.contentstack.io/v3/assets/blt89dbf1c763ec00a6/bltfa36f70965e48481/6222b7ed6f0333490a0e7fd1/1400x200_IMCBnr_NonMem2.jpg?quality=80&auto=webp&optimze={medium}" />
 
       <ReviewSection />
+
+      <ValentineSection />
     </div>
   );
 }
