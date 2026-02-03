@@ -1,28 +1,31 @@
-import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 
-const PriceFilter = () => {
-  const MIN_PRICE = 0;
-  const MAX_PRICE = 5000;
+const PriceFilter = ({ min, max, value, onChange }) => {
+  const [minPrice, maxPrice] = value;
 
-  const [minPrice, setMinPrice] = useState(MIN_PRICE);
-  const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
+  const handleMinChange = (val) => {
+    const newMin = Math.min(val, maxPrice);
+    onChange([newMin, maxPrice]);
+  };
+
+  const handleMaxChange = (val) => {
+    const newMax = Math.max(val, minPrice);
+    onChange([minPrice, newMax]);
+  };
 
   return (
     <div>
       <h3 className="font-semibold mb-4">Price</h3>
 
-      {/* Inputs */}
+      {/* Number Inputs */}
       <div className="flex gap-3 my-4">
         <div className="relative w-full">
           <input
             type="number"
-            value={minPrice}
-            min={MIN_PRICE}
+            min={min}
             max={maxPrice}
-            onChange={(e) =>
-              setMinPrice(Math.min(Number(e.target.value), maxPrice))
-            }
+            value={minPrice}
+            onChange={(e) => handleMinChange(Number(e.target.value))}
             className="w-full border px-3 pr-10 py-2 rounded-md text-sm"
           />
           <span className="absolute top-1/2 right-1 -translate-y-1/2 bg-green-500 text-white p-2 rounded-md">
@@ -33,12 +36,10 @@ const PriceFilter = () => {
         <div className="relative w-full">
           <input
             type="number"
-            value={maxPrice}
             min={minPrice}
-            max={MAX_PRICE}
-            onChange={(e) =>
-              setMaxPrice(Math.max(Number(e.target.value), minPrice))
-            }
+            max={max}
+            value={maxPrice}
+            onChange={(e) => handleMaxChange(Number(e.target.value))}
             className="w-full border px-3 pr-10 py-2 rounded-md text-sm"
           />
           <span className="absolute top-1/2 right-1 -translate-y-1/2 bg-green-500 text-white p-2 rounded-md">
@@ -47,34 +48,28 @@ const PriceFilter = () => {
         </div>
       </div>
 
-      {/* Sliders (NO OVERLAP = WORKS) */}
+      {/* Sliders */}
       <div className="space-y-3">
-        {/* Min Slider */}
         <div>
           <label className="text-xs text-gray-500">Min Price</label>
           <input
             type="range"
-            min={MIN_PRICE}
-            max={MAX_PRICE}
+            min={min}
+            max={max}
             value={minPrice}
-            onChange={(e) =>
-              setMinPrice(Math.min(Number(e.target.value), maxPrice))
-            }
+            onChange={(e) => handleMinChange(Number(e.target.value))}
             className="w-full accent-green-500"
           />
         </div>
 
-        {/* Max Slider */}
         <div>
           <label className="text-xs text-gray-500">Max Price</label>
           <input
             type="range"
-            min={MIN_PRICE}
-            max={MAX_PRICE}
+            min={min}
+            max={max}
             value={maxPrice}
-            onChange={(e) =>
-              setMaxPrice(Math.max(Number(e.target.value), minPrice))
-            }
+            onChange={(e) => handleMaxChange(Number(e.target.value))}
             className="w-full accent-green-500"
           />
         </div>

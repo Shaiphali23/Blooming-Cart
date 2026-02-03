@@ -7,28 +7,32 @@ const FeatureGrid = () => {
   const features = [
     {
       id: 1,
-      title: "Free Delivery",
-      icon: <FaTruck />,
+      title: "Fast Delivery all across the country",
+      image:
+        "https://wishwagon.in/public/assets/front-end/img/delivery_info.png",
     },
     {
       id: 2,
-      title: "Gift Packaging",
-      icon: <FaGift />,
+      title: "Safe Payment",
+      image:
+        "https://wishwagon.in/public/assets/front-end/img/safe_payment.png",
     },
     {
       id: 3,
-      title: "Secure Payment",
-      icon: <FaShieldAlt />,
+      title: "7 Days Return Policy",
+      image:
+        "https://wishwagon.in/public/assets/front-end/img/return_policy.png",
     },
     {
       id: 4,
-      title: "24/7 Support",
-      icon: <FaHeadset />,
+      title: "100% Authentic Products",
+      image:
+        "https://wishwagon.in/public/assets/front-end/img/authentic_product.png",
     },
   ];
 
   return (
-    <div className="w-full bg-[#9cbddd] rounded-lg overflow-hidden p-5">
+    <div className="w-full bg-[#9cbddd] rounded-lg overflow-hidden py-5 px-5 my-8">
       <div className="grid grid-cols-2 md:grid-cols-4">
         {features.map((item, index) => (
           <div
@@ -45,11 +49,12 @@ const FeatureGrid = () => {
               }
             `}
           >
-            {/* Icon */}
-            <div className="text-3xl text-[#c0392b]">{item.icon}</div>
+            <div>
+              <img src={item.image} alt="featureImg" />
+            </div>
 
             {/* Title */}
-            <h3 className="text-sm font-medium tracking-wide">{item.title}</h3>
+            <h3 className="text-md font-medium tracking-wide">{item.title}</h3>
           </div>
         ))}
       </div>

@@ -25,19 +25,37 @@ const extractUniqueBrands = (products) => {
   return Array.from(brands).sort();
 };
 
+const getNumericPrice = (product) => {
+  const rawPrice = product.strike_price ?? product.price ?? 0;
+  return Number(String(rawPrice).replace(/[^0-9.]/g, ""));
+};
+
+const getMinMaxPrice = (products) => {
+  const prices = products.map((p) => getNumericPrice(p));
+  return {
+    min: Math.min(...prices),
+    max: Math.max(...prices),
+  };
+};
+
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState("default");
   const [filterBy, setFilterBy] = useState("default");
   const [brandSearch, setBrandSearch] = useState("");
   const [showBrands, setShowBrands] = useState(true);
   const PRODUCTS_PER_PAGE = 20;
   const [currentPage, setCurrentPage] = useState(1);
+  const { min, max } = useMemo(() => getMinMaxPrice(productData), []);
+  const [priceRange, setPriceRange] = useState([min, max]);
+
+  useEffect(() => {
+    setPriceRange([min, max]);
+  }, [min, max]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -98,33 +116,31 @@ export default function ProductsPage() {
       });
     }
 
-    // PRICE FILTER
+    // PRICE RANGE FILTER
     filtered = filtered.filter((product) => {
-      const price = Number(
-        String(product.strike_price ?? product.price ?? 0).replace(
-          /[^0-9.]/g,
-          "",
-        ),
-      );
-
+      const price = getNumericPrice(product);
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
     // Apply sorting
     if (sortBy !== "default") {
       filtered.sort((a, b) => {
-        const priceA = a.strike_price || a.price || 0;
-        const priceB = b.strike_price || b.price || 0;
+        const priceA = getNumericPrice(a);
+        const priceB = getNumericPrice(b);
 
         switch (sortBy) {
           case "price-low-high":
             return priceA - priceB;
+
           case "price-high-low":
             return priceB - priceA;
+
           case "name-a-z":
             return a.productname.localeCompare(b.productname);
+
           case "name-z-a":
             return b.productname.localeCompare(a.productname);
+
           default:
             return 0;
         }
@@ -205,7 +221,7 @@ export default function ProductsPage() {
     setSearch("");
     setSearchQuery("");
     setSelectedBrands([]);
-    setPriceRange([0, 1000]);
+    setPriceRange([min, max]);
     setSortBy("default");
     setFilterBy("default");
     setBrandSearch("");
@@ -216,10 +232,6 @@ export default function ProductsPage() {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand],
     );
-  };
-
-  const handlePriceChange = (newRange) => {
-    setPriceRange(newRange);
   };
 
   const handleClearBrands = () => {
@@ -237,8 +249,8 @@ export default function ProductsPage() {
       selectedCategory !== "all" ||
       searchQuery.trim() !== "" ||
       selectedBrands.length > 0 ||
-      priceRange[0] > 0 ||
-      priceRange[1] < 1000 ||
+      priceRange[0] > min ||
+      priceRange[1] < max ||
       sortBy !== "default" ||
       filterBy !== "default"
     );
@@ -262,14 +274,6 @@ export default function ProductsPage() {
                 {filteredProducts.length === 1 ? "Item" : "Items"} found
               </p>
             </div>
-            {hasActiveFilters() && (
-              <button
-                onClick={handleResetFilters}
-                className="text-sm text-green-600 hover:text-green-800 underline"
-              >
-                Clear All Filters
-              </button>
-            )}
           </div>
 
           {/* ===== RIGHT SIDE ===== */}
@@ -332,21 +336,23 @@ export default function ProductsPage() {
 
         {/* ================= ACTIVE FILTERS ================= */}
         {(searchQuery ||
+          selectedCategory.length > 0 ||
           selectedBrands.length > 0 ||
-          priceRange[0] > 0 ||
-          priceRange[1] < 1000) && (
+          priceRange[0] > min ||
+          priceRange[1] < max) && (
           <div className="mt-4 p-3 bg-white rounded-lg shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-semibold text-sm">Active Filters:</h3>
               <button
                 onClick={handleResetFilters}
-                className="text-xs text-green-600 hover:text-green-800"
+                className="text-xs text-green-600 hover:text-green-800 cursor-pointer"
               >
                 Clear All
               </button>
             </div>
 
             <div className="flex flex-wrap gap-2">
+              {/* Search by items */}
               {searchQuery && (
                 <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
                   Search: "{searchQuery}"
@@ -359,6 +365,49 @@ export default function ProductsPage() {
                 </span>
               )}
 
+              {/* Sort By */}
+              {sortBy !== "default" && (
+                <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                  Sort: {sortBy.replaceAll("-", " ")}
+                  <button
+                    onClick={() => setSortBy("default")}
+                    className="hover:text-orange-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              )}
+
+              {/* Filter By */}
+              {filterBy !== "default" && (
+                <span className="inline-flex items-center gap-1 bg-pink-100 text-pink-800 text-xs px-3 py-1 rounded-full">
+                  Filter: {filterBy.replaceAll("-", " ")}
+                  <button
+                    onClick={() => setFilterBy("default")}
+                    className="hover:text-pink-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              )}
+
+              {/* Category */}
+              {selectedCategory !== "all" && (
+                <span className="inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full">
+                  Category: {selectedCategory}
+                  <button
+                    onClick={() => {
+                      setSelectedCategory("all");
+                      router.push("/products", { shallow: true });
+                    }}
+                    className="hover:text-yellow-600"
+                  >
+                    <FaTimes className="text-xs" />
+                  </button>
+                </span>
+              )}
+
+              {/* Search by brands */}
               {selectedBrands.map((brand) => (
                 <span
                   key={brand}
@@ -374,11 +423,12 @@ export default function ProductsPage() {
                 </span>
               ))}
 
-              {(priceRange[0] > 0 || priceRange[1] < 1000) && (
+              {/* Search by price */}
+              {(priceRange[0] > min || priceRange[1] < max) && (
                 <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">
                   Price: ${priceRange[0]} - ${priceRange[1]}
                   <button
-                    onClick={() => setPriceRange([0, 1000])}
+                    onClick={() => setPriceRange([min, max])}
                     className="hover:text-purple-600"
                   >
                     <FaTimes className="text-xs" />
@@ -398,7 +448,7 @@ export default function ProductsPage() {
               {hasActiveFilters() && (
                 <button
                   onClick={handleResetFilters}
-                  className="text-sm text-green-600 hover:text-green-800"
+                  className="text-sm text-green-600 hover:text-green-800 cursor-pointer"
                 >
                   Reset All
                 </button>
@@ -408,14 +458,14 @@ export default function ProductsPage() {
             {/* Price Filter */}
             <div>
               <PriceFilter
-                onChange={handlePriceChange}
+                min={min}
+                max={max}
                 value={priceRange}
-                min={0}
-                max={1000}
+                onChange={setPriceRange}
               />
-              <div className="flex justify-between mt-2 text-sm text-gray-600">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
+              <div className="flex justify-between text-sm mt-2">
+                <span>₹{priceRange[0]}</span>
+                <span>₹{priceRange[1]}</span>
               </div>
             </div>
 
@@ -457,7 +507,7 @@ export default function ProductsPage() {
                 <h3 className="font-semibold">Brands</h3>
                 <button
                   onClick={() => setShowBrands(!showBrands)}
-                  className="text-sm text-green-600 hover:text-green-800"
+                  className="text-sm text-green-600 hover:text-green-800 cursor-pointer"
                 >
                   {showBrands ? "Hide" : "Show"}
                 </button>
@@ -471,15 +521,19 @@ export default function ProductsPage() {
                       placeholder="Search by brand"
                       value={brandSearch}
                       onChange={(e) => setBrandSearch(e.target.value)}
-                      className="w-full border px-3 pr-10 py-2 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                      className="w-full border px-3 pr-16 py-2 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                     />
-                    <div className="absolute inset-y-0 right-0 top-3 right-4 flex items-center pr-3 pointer-events-none">
+
+                    {/* Search Icon */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                       <FaSearch className="h-4 w-4 text-gray-400" />
                     </div>
+
+                    {/* Clear Icon */}
                     {brandSearch && (
                       <button
                         onClick={() => setBrandSearch("")}
-                        className="absolute inset-y-0 right-8 top-3 text-gray-400 hover:text-gray-600"
+                        className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
                       >
                         <FaTimes className="h-4 w-4" />
                       </button>
