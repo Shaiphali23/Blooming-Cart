@@ -2,12 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import {
-  FaInfoCircle,
-  FaPhoneAlt,
-  FaQuestionCircle,
-  FaBlog,
-} from "react-icons/fa";
 import aboutSvg from "../../assets/images/about-us-svg-img.svg";
 import contactSvg from "../../assets/images/contacts-svg-img.svg";
 import faqSvg from "../../assets/images/faq-svg-img.svg";
