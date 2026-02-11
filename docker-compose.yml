@@ -1,0 +1,12 @@
+# Run MongoDB locally so vendor register works when Atlas is unreachable.
+# Usage: from frontend-nextjs folder run:  docker-compose up -d
+# Then restart: npx next dev
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+volumes:
+  mongodb_data:

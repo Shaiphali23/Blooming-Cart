@@ -37,7 +37,7 @@ const page = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#e0c7b8]">
+    <div className="min-h-screen w-full">
       {/* Hero Section */}
       <div className="relative w-full h-[300px] md:h-[400px]">
         <img
@@ -238,7 +238,7 @@ const page = () => {
           </div>
 
           {/* Right FAQs */}
-          <div className="md:w-2/3 space-y-4">
+          <div className="md:w-2/3 space-y-4 mx-auto">
             {faqs.map((faq, index) => (
               <div key={index} className="overflow-hidden bg-white shadow-sm">
                 <button
@@ -264,7 +264,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="my-10 bg-gray-50 py-12 px-6 text-center rounded-lg shadow-md max-w-xl mx-auto">
+      <div className="bg-gray-50 py-12 my-6 px-6 text-center rounded-lg shadow-md max-w-xl mx-auto">
         <h2 className="text-3xl font-bold mb-4">
           Ready to grow your brand with us?
         </h2>
