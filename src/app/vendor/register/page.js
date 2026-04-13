@@ -55,7 +55,7 @@ export default function VendorRegisterPage() {
         return;
       }
 
-      toast("Vendor registered successfully");
+      toast.success("Vendor registered successfully");
       setFormData({
         vendorName: "",
         shopName: "",

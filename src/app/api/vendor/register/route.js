@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
-import Vendor from "@/app/models/Vendor";
+import Vendor from "@/models/Vendor";
 
 export async function POST(req) {
   try {
@@ -47,6 +47,6 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Vendor Register Error:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }

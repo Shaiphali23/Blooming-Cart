@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
+import dns from "node:dns";
 
-const MONGO_URI = process.env.MONGO_URI;
-
-if (!MONGO_URI) {
-  throw new Error("Please define MONGO_URI in .env.local");
-}
+// Force Node.js to use Google DNS for SRV lookups (fixes ISP DNS blocking)
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 let cached = global.mongoose;
 
@@ -13,6 +11,12 @@ if (!cached) {
 }
 
 export default async function dbConnect() {
+  const MONGO_URI = process.env.MONGO_URI;
+
+  if (!MONGO_URI) {
+    throw new Error("MONGO_URI not defined in .env.local");
+  }
+
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {

@@ -8,6 +8,7 @@ import PriceFilter from "./PriceFilter";
 
 export default function DiscountsPage() {
   const [search, setSearch] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 2000]);
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -70,7 +71,7 @@ export default function DiscountsPage() {
             <h1 className="text-lg font-semibold">Filter By</h1>
 
             {/* Price Filter */}
-            <PriceFilter />
+            <PriceFilter min={0} max={2000} value={priceRange} onChange={setPriceRange} />
 
             {/* Categories */}
             <div className="mt-6">
